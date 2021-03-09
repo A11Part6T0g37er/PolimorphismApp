@@ -1,0 +1,29 @@
+﻿<Window x:Class="PolimorphismApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolimorphismApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TreeView x:Name="FiguresTreeView" Background="LightCyan" HorizontalAlignment="Left" Height="347" Margin="0,72,0,0" VerticalAlignment="Top" Width="157">
+            <TreeViewItem Header="Figures">
+                <TreeViewItem Header="Rectangles" />
+                <TreeViewItem Header="Triangles" />
+                <TreeViewItem Header="Circles" />
+
+            </TreeViewItem>
+        </TreeView>
+        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" Height="57" Margin="0,10,0,0" VerticalAlignment="Top" Width="782">
+            <Button Content="Rect btn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="101" Click="CreateRectangleShape" Height="35"/>
+            <Button Content="Triangle btn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="101" Click="CreateTriangleShape" Height="35"/>
+            <Button Content="Circ btn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="101" Click="CreateCircleShape" Height="35"/>
+        </StackPanel>
+        <Viewbox Margin="162,72,10,10" Stretch="Uniform">
+            <Canvas x:Name="canvasFigures" Background="LightGray" Cursor="Hand" MouseLeftButtonDown="CanvasArea_MouseLeftButtonDown" Width="640" Height="700">
+                
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</Window>
