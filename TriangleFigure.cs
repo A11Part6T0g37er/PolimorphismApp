@@ -29,9 +29,10 @@ namespace PolimorphismApp
     {
             Canvas.SetLeft(polygon,rd.Next(10, (int)pMax.X));
             Canvas.SetTop(polygon, rd.Next(10, (int)pMax.Y));
+            FiguresTreeView
 
 
-            
+
         }
 
     public override void Move(Point pMax)
