@@ -24,7 +24,7 @@ namespace PolimorphismApp
             NameScope.SetNameScope(this, new NameScope());
         }
 
-
+        //just to be sure it still completes basic testcase
         private void CanvasArea_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Shape Rendershape = new Ellipse() { Height = 40, Width = 40 };
@@ -43,16 +43,7 @@ namespace PolimorphismApp
 
         }
 
-        private RadialGradientBrush InitBrush()
-        {
-            RadialGradientBrush brush = new RadialGradientBrush();
-            brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.250));
-            brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.100));
-            brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 8));
-            return brush;
-
-
-        }
+       
 
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
@@ -78,19 +69,20 @@ namespace PolimorphismApp
         //Trying to make it move
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
-            //Polygon Rendershape = new Polygon() ;
-            //System.Windows.Point Point1 = new System.Windows.Point(30, 10);
-            //Point Point2 = new System.Windows.Point(40, 40);
-            //Point Point3 = new System.Windows.Point(20, 40);
-            //PointCollection polygonPoints = new PointCollection();
-            //polygonPoints.Add(Point1);
-            //polygonPoints.Add(Point2);
-            //polygonPoints.Add(Point3);
-            //Rendershape.Points = polygonPoints;
-            //Rendershape.Fill = InitBrush();
+            
 
 
             TriangleFigure triangleFigure = new TriangleFigure(new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20));
+
+
+            TreeView treeView = new TreeView();
+            treeView.Items.Add("fds");
+            TreeViewItem trVI = new TreeViewItem();
+          
+            NameScope.SetNameScope(this, new NameScope());
+            
+            
+
 
             triangleFigure.Draw();
 
