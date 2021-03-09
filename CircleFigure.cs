@@ -15,15 +15,18 @@ namespace PolimorphismApp
             ellipse.Fill = InitBrush();
         }
 
-        public override void Draw()
-        {
-            Canvas.SetLeft(ellipse, rd.Next(10, (int)pMax.X));
-            Canvas.SetTop(ellipse, rd.Next(10, (int)pMax.Y));
-        }
+       
 
         public override void Move(Point pMax)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void Draw(Canvas canvas)
+        {
+            Canvas.SetLeft(ellipse, rd.Next(10, (int)pMax.X));
+            Canvas.SetTop(ellipse, rd.Next(10, (int)pMax.Y));
+            canvas.Children.Add(ellipse);
         }
     }
 }

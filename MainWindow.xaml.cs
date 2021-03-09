@@ -57,8 +57,8 @@ namespace PolimorphismApp
 
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
-            rectangle.Draw();
-            canvasFigures.Children.Add((UIElement)rectangle);
+            rectangle.Draw(canvasFigures);
+           
 
 
             
@@ -74,7 +74,7 @@ namespace PolimorphismApp
 
             TriangleFigure triangleFigure = new TriangleFigure(new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20));
 
-
+            //attemp to bind to TreeViewList node
             TreeView treeView = new TreeView();
             treeView.Items.Add("fds");
             TreeViewItem trVI = new TreeViewItem();
@@ -84,7 +84,7 @@ namespace PolimorphismApp
             
 
 
-            triangleFigure.Draw();
+            triangleFigure.Draw(canvasFigures);
 
             //Animation attemp
             DoubleAnimation animDouble = new DoubleAnimation();
@@ -119,7 +119,7 @@ namespace PolimorphismApp
                 //pathAnimationStoryboard.Begin(this);
             };
 
-            canvasFigures.Children.Add(triangleFigure.polygon);
+           
 
 
             
@@ -130,8 +130,8 @@ namespace PolimorphismApp
             Point pMax = new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20);
 
             CircleFigure circle = new CircleFigure(pMax);
-            circle.Draw();
-            canvasFigures.Children.Add(circle.ellipse);
+            circle.Draw(canvasFigures);
+           
         }
     }
 }

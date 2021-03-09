@@ -22,11 +22,7 @@ namespace PolimorphismApp
 
         //public RectangleFigure(RoutedEventArgs e) => this.e = e;
 
-        public override void Draw()
-        {
-            Canvas.SetLeft(rect, rd.Next(10, (int)pMax.X));
-            Canvas.SetTop(rect, rd.Next(10, (int)pMax.Y));
-        }
+       
        
 
         public override void Move(Point pMax)
@@ -36,6 +32,13 @@ namespace PolimorphismApp
         public static explicit operator UIElement(RectangleFigure v)
         {
             return v.rect;
+        }
+
+        public override void Draw(Canvas canvasFigures)
+        {
+            Canvas.SetLeft(rect, rd.Next(10, (int)pMax.X));
+            Canvas.SetTop(rect, rd.Next(10, (int)pMax.Y));
+            _ = canvasFigures.Children.Add(rect);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace PolimorphismApp
     {
             this.pMax = pmax;
         this.polygon = new Polygon();
-        System.Windows.Point Point1 = new System.Windows.Point(30, 10);
+        System.Windows.Point Point1 = new System.Windows.Point(20, 10);
         Point Point2 = new System.Windows.Point(40, 40);
-        Point Point3 = new System.Windows.Point(20, 40);
+        Point Point3 = new System.Windows.Point(0, 40);
         PointCollection polygonPoints = new PointCollection();
         polygonPoints.Add(Point1);
         polygonPoints.Add(Point2);
@@ -25,14 +25,12 @@ namespace PolimorphismApp
         polygon.Points = polygonPoints;
         polygon.Fill = InitBrush();
     }
-    public override void Draw()
+    public override void Draw(Canvas canvas)
     {
             Canvas.SetLeft(polygon,rd.Next(10, (int)pMax.X));
             Canvas.SetTop(polygon, rd.Next(10, (int)pMax.Y));
-            FiguresTreeView
 
-
-
+            canvas.Children.Add(polygon);
         }
 
     public override void Move(Point pMax)

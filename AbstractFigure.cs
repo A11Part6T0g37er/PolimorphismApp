@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -45,7 +46,7 @@ namespace PolimorphismApp
 
         }
 
-        public abstract void Draw();
+        public abstract void Draw(Canvas canvas);
         public abstract void Move(Point pMax);
 
         
