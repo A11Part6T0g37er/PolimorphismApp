@@ -8,11 +8,14 @@ namespace PolimorphismApp
 {
    abstract internal class AbstractFigure
     {
-        public int x { get; set; }
-        public int y { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
-        public int dx { get { return dx; } set { dx = 4; } }
-        public int dy { get { return dx; } set { dx = -4; } }
+        private int _Dx;
+        private int _Dy;
+
+        public int Dx { get { return _Dx; } set { _Dx = 4; } }
+        public int Dy { get { return _Dy; } set { _Dy = -4; } }
         public Point pMax { get; set; }
         protected Random rd = new Random();
       
