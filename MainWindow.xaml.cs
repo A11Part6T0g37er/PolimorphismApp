@@ -74,55 +74,29 @@ namespace PolimorphismApp
 
             TriangleFigure triangleFigure = new TriangleFigure(new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20));
 
-            //attemp to bind to TreeViewList node
-            TreeView treeView = new TreeView();
-            treeView.Items.Add("fds");
-            TreeViewItem trVI = new TreeViewItem();
           
-            NameScope.SetNameScope(this, new NameScope());
+          
+            
             
             
 
 
             triangleFigure.Draw(canvasFigures, TrianglesTree);
 
-            //Animation attemp
-            DoubleAnimation animDouble = new DoubleAnimation();
-            animDouble.AutoReverse = true;
-            animDouble.From = 100;
-            animDouble.To = 0;
-            animDouble.Duration = new TimeSpan(0, 0, 2);
+            
 
+            var animation1 = new DoubleAnimation( 500,
+                         new Duration(new TimeSpan(0, 0, 0, 2, 0)));
+            animation1.AutoReverse = true;
 
-            // Create a NameScope for the page so that 
-            // we can use Storyboards.
-            NameScope.SetNameScope(this, new NameScope());
+            TranslateTransform animatedTranslateTransform =
+                new TranslateTransform();
 
-
-            // Assign the EllipseGeometry a name so that
-            // it can be targeted by a Storyboard.
-            this.RegisterName(
-               "AnimatedTranslateTransform", triangleFigure);
-
-            Storyboard pathAnimationStoryboard = new Storyboard();
-            pathAnimationStoryboard.RepeatBehavior = RepeatBehavior.Forever;
-            pathAnimationStoryboard.Children.Add(animDouble);
-
-            Storyboard.SetTargetName(animDouble, "AnimatedTranslateTransform");
-            Storyboard.SetTargetProperty(animDouble,
-                new PropertyPath(TranslateTransform.YProperty));
-
-          
-            triangleFigure.polygon.Loaded += delegate (object sendre, RoutedEventArgs eventer)
-            {
-                // Start the storyboard.
-                //pathAnimationStoryboard.Begin(this);
-            };
-
+            triangleFigure.polygon.BeginAnimation(TranslateTransform.XProperty, animation1);
+            triangleFigure.polygon.BeginAnimation(TranslateTransform.YProperty, animation1);
            
 
 
-            
         }
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
@@ -131,7 +105,15 @@ namespace PolimorphismApp
 
             CircleFigure circle = new CircleFigure(pMax);
             circle.Draw(canvasFigures, CirclesTree);
-            circle.Move(canvasFigures);
+            int x = 0;
+            do
+            {
+                circle.Move(canvasFigures);
+                ++x;
+            }
+            while (x < 10);
+            
+            
         }
     }
 }
