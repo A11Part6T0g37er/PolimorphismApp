@@ -20,10 +20,8 @@
             <Button Content="Triangle btn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,10,0,0" Width="101" Click="CreateTriangleShape" Height="35"/>
             <Button Content="Circ btn" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="100,10,0,0" Width="101" Click="CreateCircleShape" Height="35"/>
         </StackPanel>
-        <Viewbox Margin="162,72,10,10" Stretch="Uniform">
-            <Canvas x:Name="canvasFigures" Background="LightGray" Cursor="Hand" MouseLeftButtonDown="CanvasArea_MouseLeftButtonDown" Width="1234" Height="700">
-                
-            </Canvas>
-        </Viewbox>
+       
+            <Canvas x:Name="canvasFigures" Background="LightGray" Cursor="Hand" MouseLeftButtonDown="CanvasArea_MouseLeftButtonDown" Margin="180,72,0,0"/>
+
     </Grid>
 </Window>
