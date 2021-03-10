@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TreeView x:Name="FiguresTreeView" Background="LightCyan" HorizontalAlignment="Left" Height="347" Margin="0,72,0,0" VerticalAlignment="Top" Width="157">
-            <TreeViewItem Header="Figures" IsExpanded="True">
-                <TreeViewItem Header="Rectangles" />
-                <TreeViewItem Header="Triangles" />
-                <TreeViewItem Header="Circles" />
+        <TreeView  Background="LightCyan" HorizontalAlignment="Left" Height="347" Margin="0,72,0,0" VerticalAlignment="Top" Width="157">
+            <TreeViewItem x:Name="FiguresTreeView" Header="Figures" IsExpanded="True">
+                <TreeViewItem x:Name="RectTree" Header="Rectangles" />
+                <TreeViewItem x:Name="TrianglesTree"  Header="Triangles"/>
+                <TreeViewItem x:Name="CirclesTree" Header="Circles" />
 
             </TreeViewItem>
         </TreeView>

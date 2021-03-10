@@ -8,15 +8,17 @@ namespace PolimorphismApp
 {
     internal class TriangleFigure : AbstractFigure
     {
-        
-        public Polygon polygon { get; private set;}
-    public TriangleFigure() { }
-       
+        private static int Indexer = 0;
+        public Polygon polygon { get; private set; }
+        public TriangleFigure() { }
+
         public TriangleFigure(Point pmax)
         {
             this.pMax = pmax;
             InitializeShape();
             polygon.Fill = InitBrush();
+            Indexer++;
+            polygon.Name = "Triangle";
         }
 
         private void InitializeShape()
@@ -32,22 +34,25 @@ namespace PolimorphismApp
             polygon.Points = polygonPoints;
         }
 
-        public override void Draw(Canvas canvas)
-    {
-            Canvas.SetLeft(polygon,rd.Next(10, (int)pMax.X));
+        public override void Draw(Canvas canvas, TreeViewItem childItem)
+        {
+            Canvas.SetLeft(polygon, rd.Next(10, (int)pMax.X));
             Canvas.SetTop(polygon, rd.Next(10, (int)pMax.Y));
 
             canvas.Children.Add(polygon);
+            TreeViewItem polygonTree = new TreeViewItem();
+            polygonTree.Header = polygon.Name + " " + Indexer;
+            childItem.Items.Add(polygonTree);
         }
 
-    public override void Move(Point pMax)
-    {
-        throw new NotImplementedException();
-    }
+        public override void Move(Point pMax)
+        {
+            throw new NotImplementedException();
+        }
 
         public static explicit operator UIElement(TriangleFigure v)
         {
-            return v.polygon ;
+            return v.polygon;
         }
     }
 }

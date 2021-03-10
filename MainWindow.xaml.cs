@@ -57,10 +57,10 @@ namespace PolimorphismApp
 
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
-            rectangle.Draw(canvasFigures);
+            rectangle.Draw(canvasFigures, RectTree);
+            
+
            
-
-
             
 
         }
@@ -84,7 +84,7 @@ namespace PolimorphismApp
             
 
 
-            triangleFigure.Draw(canvasFigures);
+            triangleFigure.Draw(canvasFigures, TrianglesTree);
 
             //Animation attemp
             DoubleAnimation animDouble = new DoubleAnimation();
@@ -130,7 +130,7 @@ namespace PolimorphismApp
             Point pMax = new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20);
 
             CircleFigure circle = new CircleFigure(pMax);
-            circle.Draw(canvasFigures);
+            circle.Draw(canvasFigures, CirclesTree);
             circle.Move(canvasFigures);
         }
     }

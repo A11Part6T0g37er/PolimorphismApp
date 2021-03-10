@@ -11,13 +11,16 @@ namespace PolimorphismApp
        
        
         public Rectangle rect;
-       
+        public static int Index = 0;
 
         public RectangleFigure(Point pMax)
         {
             this.rect = new Rectangle() { Height = 40, Width = 40 };
             this.rect.Fill = InitBrush();
             this.pMax = pMax;
+            Index++;
+
+            rect.Name = "Square";
         }
 
       
@@ -34,11 +37,21 @@ namespace PolimorphismApp
             return v.rect;
         }
 
-        public override void Draw(Canvas canvasFigures)
+       
+
+        public override void Draw(Canvas canvasFigures, TreeViewItem rectTree)
         {
-            Canvas.SetLeft(rect, rd.Next(10, (int)pMax.X));
-            Canvas.SetTop(rect, rd.Next(10, (int)pMax.Y));
-             canvasFigures.Children.Add(rect);
+            X = rd.Next(10, (int)pMax.X);
+            Y = rd.Next(10, (int)pMax.Y);
+
+            Canvas.SetLeft(rect, X);
+            Canvas.SetTop(rect, Y);
+            canvasFigures.Children.Add(rect);
+
+            TreeViewItem Child1Item = new TreeViewItem();
+            Child1Item.Header = rect.Name +" "  + Index ;
+            rectTree.Items.Add(Child1Item);
+
         }
     }
 }

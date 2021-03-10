@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
 namespace PolimorphismApp
@@ -10,6 +8,7 @@ namespace PolimorphismApp
     internal class CircleFigure : AbstractFigure
     {
         private Canvas internalCanvas;
+        private static int Indexer = 0;
 
         //private Point pMax;
         public Ellipse ellipse { get; private set; }
@@ -18,13 +17,16 @@ namespace PolimorphismApp
             this.pMax = pMax;
             ellipse = new Ellipse() { Height = 40, Width = 40 };
             ellipse.Fill = InitBrush();
+            Indexer++;
+
+            ellipse.Name = "Circle";
         }
 
-       
+
 
         public override void Move(Point pMax)
         {
-           
+
 
             if (X <= 0 || X >= pMax.X)
                 Dx = -Dx;
@@ -33,11 +35,11 @@ namespace PolimorphismApp
 
             X += Dx;
             Y += Dy;
-           
+
 
         }
 
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas canvas, TreeViewItem childTree)
         {
             internalCanvas = canvas;
             X = rd.Next(10, (int)pMax.X);
@@ -45,20 +47,13 @@ namespace PolimorphismApp
             Canvas.SetLeft(ellipse, X);
             Canvas.SetTop(ellipse, Y);
             canvas.Children.Add(ellipse);
-            Thread.Sleep(1000);
 
+            TreeViewItem ChildItem = new TreeViewItem();
+            ChildItem.Header = ellipse.Name + " " + Indexer;
+            childTree.Items.Add(ChildItem);
 
-            //int x = 0;
-            //do
-            //{
-            //    Move(canvas);
-            //    Thread.Sleep(500);
-            //    x++;
-            //}
-            //while (x<5);
-            //}
         }
-        public void Move( Canvas canvas2)
+        public void Move(Canvas canvas2)
         {
             int x = 0;
             do
@@ -68,7 +63,7 @@ namespace PolimorphismApp
                 x++;
             }
             while (x < 5);
-        
+
             if (X <= 0 || X >= pMax.X)
                 Dx = -Dx;
             if (Y <= 0 || X >= pMax.Y)
