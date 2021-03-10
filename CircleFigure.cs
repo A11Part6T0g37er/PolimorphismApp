@@ -59,7 +59,7 @@ namespace PolimorphismApp
             do
             {
                 Move2(canvas2);
-                Thread.Sleep(500);
+                
                 x++;
             }
             while (x < 5);
