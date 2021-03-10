@@ -12,7 +12,7 @@ namespace PolimorphismApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        Storyboard ellipseStoryboard = new Storyboard();
+       public Storyboard ellipseStoryboard = new Storyboard();
         public MainWindow()
         {
             InitializeComponent();
@@ -131,7 +131,7 @@ namespace PolimorphismApp
 
             CircleFigure circle = new CircleFigure(pMax);
             circle.Draw(canvasFigures);
-           
+            circle.Move(canvasFigures);
         }
     }
 }

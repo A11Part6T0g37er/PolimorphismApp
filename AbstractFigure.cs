@@ -11,11 +11,11 @@ namespace PolimorphismApp
         public int X { get; set; }
         public int Y { get; set; }
 
-        private int _Dx;
-        private int _Dy;
+        private int _Dx = 4;
+        private int _Dy = -4;
 
-        public int Dx { get { return _Dx; } set { _Dx = 4; } }
-        public int Dy { get { return _Dy; } set { _Dy = -4; } }
+        public int Dx { get { return _Dx; }   set { _Dx = value; } }
+        public int Dy { get { return _Dy; }   set { _Dy = value; } }
         public Point pMax { get; set; }
         protected Random rd = new Random();
       

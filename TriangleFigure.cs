@@ -11,21 +11,28 @@ namespace PolimorphismApp
         Point pMax;
         public Polygon polygon { get; private set;}
     public TriangleFigure() { }
+       
         public TriangleFigure(Point pmax)
-    {
+        {
             this.pMax = pmax;
-        this.polygon = new Polygon();
-        System.Windows.Point Point1 = new System.Windows.Point(20, 10);
-        Point Point2 = new System.Windows.Point(40, 40);
-        Point Point3 = new System.Windows.Point(0, 40);
-        PointCollection polygonPoints = new PointCollection();
-        polygonPoints.Add(Point1);
-        polygonPoints.Add(Point2);
-        polygonPoints.Add(Point3);
-        polygon.Points = polygonPoints;
-        polygon.Fill = InitBrush();
-    }
-    public override void Draw(Canvas canvas)
+            InitializeShape();
+            polygon.Fill = InitBrush();
+        }
+
+        private void InitializeShape()
+        {
+            this.polygon = new Polygon();
+            System.Windows.Point Point1 = new System.Windows.Point(20, 10);
+            Point Point2 = new System.Windows.Point(40, 40);
+            Point Point3 = new System.Windows.Point(0, 40);
+            PointCollection polygonPoints = new PointCollection();
+            polygonPoints.Add(Point1);
+            polygonPoints.Add(Point2);
+            polygonPoints.Add(Point3);
+            polygon.Points = polygonPoints;
+        }
+
+        public override void Draw(Canvas canvas)
     {
             Canvas.SetLeft(polygon,rd.Next(10, (int)pMax.X));
             Canvas.SetTop(polygon, rd.Next(10, (int)pMax.Y));
