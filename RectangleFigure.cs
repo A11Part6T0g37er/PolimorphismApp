@@ -8,8 +8,8 @@ namespace PolimorphismApp
 {
     internal class RectangleFigure : AbstractFigure
     {
-        private RoutedEventArgs e;
-        private Point pMax;
+       
+       
         public Rectangle rect;
        
 
@@ -20,7 +20,7 @@ namespace PolimorphismApp
             this.pMax = pMax;
         }
 
-        //public RectangleFigure(RoutedEventArgs e) => this.e = e;
+      
 
        
        
@@ -38,7 +38,7 @@ namespace PolimorphismApp
         {
             Canvas.SetLeft(rect, rd.Next(10, (int)pMax.X));
             Canvas.SetTop(rect, rd.Next(10, (int)pMax.Y));
-            _ = canvasFigures.Children.Add(rect);
+             canvasFigures.Children.Add(rect);
         }
     }
 }

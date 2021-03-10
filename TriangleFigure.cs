@@ -8,7 +8,7 @@ namespace PolimorphismApp
 {
     internal class TriangleFigure : AbstractFigure
     {
-        Point pMax;
+        
         public Polygon polygon { get; private set;}
     public TriangleFigure() { }
        
