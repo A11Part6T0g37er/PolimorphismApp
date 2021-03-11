@@ -1,11 +1,13 @@
 ﻿namespace PolimorphismApp
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
@@ -15,16 +17,30 @@
         public Storyboard TriangleBoard = new Storyboard();
 
         public Storyboard StoryboardAttemp = new Storyboard();
-
+        private List<AbstractFigure> figuresList = new List<AbstractFigure>();
         public MainWindow()
         {
             this.InitializeComponent();
 
-           
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Tick += Timer_Tick;
+            timer.Start();
 
             // Create a NameScope for this page so that
             // Storyboards can be used.
             NameScope.SetNameScope(this, new NameScope());
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            for(int x = 0; x<100; x++)
+            {
+                foreach(var figure in this.figuresList)
+                {
+                    figure.Move(new Point(0,0));
+                }
+            }
         }
 
         // just to be sure it still completes basic testcase
@@ -62,7 +78,7 @@
             RectangleFigure rectangle = new RectangleFigure(pMax);
             rectangle.Draw(this.canvasFigures, this.RectTree);
 
-
+            figuresList.Add(rectangle);
 
 
 

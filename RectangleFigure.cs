@@ -30,7 +30,10 @@ namespace PolimorphismApp
 
         public override void Move(Point pMax)
         {
-            throw new NotImplementedException();
+            X++;
+            Y++;
+            Canvas.SetLeft(rect, X);
+            Canvas.SetTop(rect, Y);
         }
         public static explicit operator UIElement(RectangleFigure v)
         {
