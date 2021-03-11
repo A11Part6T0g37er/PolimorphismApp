@@ -17,7 +17,7 @@ namespace PolimorphismApp
         {
             this.rect = new Rectangle() { Height = 40, Width = 40 };
             this.rect.Fill = InitBrush();
-            this.pMax = pMax;
+            this.PMax = pMax;
             Index++;
 
             rect.Name = "Square";
@@ -41,8 +41,8 @@ namespace PolimorphismApp
 
         public override void Draw(Canvas canvasFigures, TreeViewItem rectTree)
         {
-            X = rd.Next(10, (int)pMax.X);
-            Y = rd.Next(10, (int)pMax.Y);
+            X = rd.Next(10, (int)PMax.X);
+            Y = rd.Next(10, (int)PMax.Y);
 
             Canvas.SetLeft(rect, X);
             Canvas.SetTop(rect, Y);

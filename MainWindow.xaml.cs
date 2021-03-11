@@ -1,24 +1,24 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
-namespace PolimorphismApp
+﻿namespace PolimorphismApp
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+    using System.Windows.Media.Animation;
+    using System.Windows.Shapes;
+
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Storyboard triangleBoard = new Storyboard();
+        public Storyboard TriangleBoard = new Storyboard();
 
+        public Storyboard StoryboardAttemp = new Storyboard();
 
-        public Storyboard storyboardAttemp = new Storyboard();
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
 
 
@@ -27,22 +27,22 @@ namespace PolimorphismApp
             NameScope.SetNameScope(this, new NameScope());
         }
 
-        //just to be sure it still completes basic testcase
+        // just to be sure it still completes basic testcase
         private void CanvasArea_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Shape Rendershape = new Ellipse() { Height = 40, Width = 40 };
+            Shape rendershape = new Ellipse() { Height = 40, Width = 40 };
 
             RadialGradientBrush brush = new RadialGradientBrush();
 
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.850));
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.400));
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 8));
-            Rendershape.Fill = brush;
+            rendershape.Fill = brush;
 
-            Canvas.SetLeft(Rendershape, e.GetPosition(canvasFigures).X);
-            Canvas.SetTop(Rendershape, e.GetPosition(canvasFigures).Y);
+            Canvas.SetLeft(rendershape, e.GetPosition(this.canvasFigures).X);
+            Canvas.SetTop(rendershape, e.GetPosition(this.canvasFigures).Y);
 
-            canvasFigures.Children.Add(Rendershape);
+            this.canvasFigures.Children.Add(rendershape);
 
         }
 
@@ -53,14 +53,14 @@ namespace PolimorphismApp
 
 
 
-            Point pMax = new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20);
+            Point pMax = new Point(this.canvasFigures.ActualWidth - 20, this.canvasFigures.ActualHeight - 20);
 
 
 
 
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
-            rectangle.Draw(canvasFigures, RectTree);
+            rectangle.Draw(this.canvasFigures, this.RectTree);
 
 
 
@@ -69,37 +69,38 @@ namespace PolimorphismApp
         }
 
 
-        //Trying to make it move
+        // Trying to make it move
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
 
 
 
             #region WorkingAnimation
-            TriangleFigure triangleFigure = new TriangleFigure(new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20));
+            TriangleFigure triangleFigure = new TriangleFigure(new Point(this.canvasFigures.ActualWidth - 20, this.canvasFigures.ActualHeight - 20));
 
-            triangleFigure.Draw(canvasFigures, TrianglesTree);
+            triangleFigure.Draw(this.canvasFigures, this.TrianglesTree);
 
-            var animation1 = new DoubleAnimation(100, 0,
-                         new Duration(new TimeSpan(0, 0, 0, 1, 0)));
-            animation1.AutoReverse = true;
+            var animation1 = new DoubleAnimation(100, 0, new Duration(new TimeSpan(0, 0, 0, 1, 0)))
+            {
+                AutoReverse = true
+            };
 
-            storyboardAttemp.Children.Add(animation1);
+            this.StoryboardAttemp.Children.Add(animation1);
 
             Storyboard.SetTarget(animation1, triangleFigure.polygon);
-            Storyboard.SetTargetProperty(animation1,
-                                            new PropertyPath(FrameworkElement.HeightProperty));
+            Storyboard.SetTargetProperty(
+                animation1,
+                new PropertyPath(FrameworkElement.HeightProperty));
 
-            storyboardAttemp.Begin(); 
+            StoryboardAttemp.Begin(); 
             #endregion
 
 
-            //changing X Y properties block
+            // changing X Y properties block
 
             // Create a DoubleAnimationUsingPath to move the
             // rectangle horizontally along the path by animating
             // its TranslateTransform.
-
             TranslateTransform animatedTranslateTransform =
                 new TranslateTransform();
 
@@ -108,12 +109,11 @@ namespace PolimorphismApp
             // triangleBoard.Children.Add(animateMove);
             // Storyboard.SetTarget(animateMove, triangleFigure.polygon);
             // Storyboard.SetTargetProperty(animateMove,
-            //                                 new PropertyPath(TranslateTransform.XProperty));
-
+            // new PropertyPath(TranslateTransform.XProperty));
             DoubleAnimationUsingPath translateXAnimation =
                 new DoubleAnimationUsingPath();
 
-           //init pathGeometry
+           // init pathGeometry
             PathFigure pFigure = new PathFigure();
             pFigure.StartPoint = new Point(10, 100);
             PolyBezierSegment pBezierSegment = new PolyBezierSegment();
@@ -126,11 +126,9 @@ namespace PolimorphismApp
             pFigure.Segments.Add(pBezierSegment);
 
             // Freeze the PathGeometry for performance benefits.
-
             PathGeometry animationPath = new PathGeometry();
             animationPath.Figures.Add(pFigure);
             animationPath.Freeze();
-
 
             translateXAnimation.PathGeometry = animationPath;
             translateXAnimation.Duration = TimeSpan.FromSeconds(5);
@@ -140,39 +138,31 @@ namespace PolimorphismApp
             // the path information.
             translateXAnimation.Source = PathAnimationSource.X;
 
-            
-
             // Set the animation to target the X property
             // of the TranslateTransform named "AnimatedTranslateTransform".
             Storyboard.SetTarget(translateXAnimation, triangleFigure.polygon);
-            Storyboard.SetTargetProperty(translateXAnimation,
+            Storyboard.SetTargetProperty(
+                translateXAnimation,
                 new PropertyPath(TranslateTransform.XProperty));
 
             translateXAnimation.BeginAnimation(TranslateTransform.XProperty, animateMove);
-            triangleBoard.Children.Add(translateXAnimation);
-            triangleBoard.Begin();
-
-
-
-
+            this.TriangleBoard.Children.Add(translateXAnimation);
+            this.TriangleBoard.Begin();
         }
-
-
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
         {
-            Point pMax = new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20);
+            Point pMax = new Point(this.canvasFigures.ActualWidth - 20, this.canvasFigures.ActualHeight - 20);
 
             CircleFigure circle = new CircleFigure(pMax);
-            circle.Draw(canvasFigures, CirclesTree);
+            circle.Draw(this.canvasFigures, this.CirclesTree);
             int x = 0;
             do
             {
-                circle.Move(canvasFigures);
+                circle.Move(this.canvasFigures);
                 ++x;
             }
             while (x < 10);
-
 
         }
     }

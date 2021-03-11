@@ -14,7 +14,7 @@ namespace PolimorphismApp
 
         public TriangleFigure(Point pmax)
         {
-            this.pMax = pmax;
+            this.PMax = pmax;
             InitializeShape();
             polygon.Fill = InitBrush();
             Indexer++;
@@ -37,8 +37,8 @@ namespace PolimorphismApp
         public override void Draw(Canvas canvas, TreeViewItem childItem)
         {
 
-            X = rd.Next(10, (int)pMax.X);
-            Y = rd.Next(10, (int)pMax.Y);
+            X = rd.Next(10, (int)PMax.X);
+            Y = rd.Next(10, (int)PMax.Y);
 
             Canvas.SetLeft(polygon, X);
             Canvas.SetTop(polygon, Y);
