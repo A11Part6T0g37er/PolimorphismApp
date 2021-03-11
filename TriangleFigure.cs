@@ -36,8 +36,12 @@ namespace PolimorphismApp
 
         public override void Draw(Canvas canvas, TreeViewItem childItem)
         {
-            Canvas.SetLeft(polygon, rd.Next(10, (int)pMax.X));
-            Canvas.SetTop(polygon, rd.Next(10, (int)pMax.Y));
+
+            X = rd.Next(10, (int)pMax.X);
+            Y = rd.Next(10, (int)pMax.Y);
+
+            Canvas.SetLeft(polygon, X); 
+            Canvas.SetTop(polygon, Y);
 
             canvas.Children.Add(polygon);
             TreeViewItem polygonTree = new TreeViewItem();
