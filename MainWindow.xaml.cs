@@ -12,7 +12,10 @@ namespace PolimorphismApp
     /// </summary>
     public partial class MainWindow : Window
     {
-       public Storyboard ellipseStoryboard = new Storyboard();
+        public Storyboard triangleBoard = new Storyboard();
+
+
+        public Storyboard storyboardAttemp = new Storyboard();
         public MainWindow()
         {
             InitializeComponent();
@@ -43,25 +46,25 @@ namespace PolimorphismApp
 
         }
 
-       
+
 
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
-           
+
 
 
             Point pMax = new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20);
-          
+
 
 
 
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
             rectangle.Draw(canvasFigures, RectTree);
-            
 
-           
-            
+
+
+
 
         }
 
@@ -69,35 +72,92 @@ namespace PolimorphismApp
         //Trying to make it move
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
-            
 
 
+
+            #region WorkingAnimation
             TriangleFigure triangleFigure = new TriangleFigure(new Point(canvasFigures.ActualWidth - 20, canvasFigures.ActualHeight - 20));
-
-          
-          
-            
-            
-            
-
 
             triangleFigure.Draw(canvasFigures, TrianglesTree);
 
-            
-
-            var animation1 = new DoubleAnimation( 500,
-                         new Duration(new TimeSpan(0, 0, 0, 2, 0)));
+            var animation1 = new DoubleAnimation(100, 0,
+                         new Duration(new TimeSpan(0, 0, 0, 1, 0)));
             animation1.AutoReverse = true;
+
+            storyboardAttemp.Children.Add(animation1);
+
+            Storyboard.SetTarget(animation1, triangleFigure.polygon);
+            Storyboard.SetTargetProperty(animation1,
+                                            new PropertyPath(FrameworkElement.HeightProperty));
+
+            storyboardAttemp.Begin(); 
+            #endregion
+
+
+            //changing X Y properties block
+
+            // Create a DoubleAnimationUsingPath to move the
+            // rectangle horizontally along the path by animating
+            // its TranslateTransform.
 
             TranslateTransform animatedTranslateTransform =
                 new TranslateTransform();
 
-            triangleFigure.polygon.BeginAnimation(TranslateTransform.XProperty, animation1);
-            triangleFigure.polygon.BeginAnimation(TranslateTransform.YProperty, animation1);
-           
+            var animateMove = new DoubleAnimation(triangleFigure.X, 120, new Duration(new TimeSpan(0, 0, 2)));
+
+            // triangleBoard.Children.Add(animateMove);
+            // Storyboard.SetTarget(animateMove, triangleFigure.polygon);
+            // Storyboard.SetTargetProperty(animateMove,
+            //                                 new PropertyPath(TranslateTransform.XProperty));
+
+            DoubleAnimationUsingPath translateXAnimation =
+                new DoubleAnimationUsingPath();
+
+           //init pathGeometry
+            PathFigure pFigure = new PathFigure();
+            pFigure.StartPoint = new Point(10, 100);
+            PolyBezierSegment pBezierSegment = new PolyBezierSegment();
+            pBezierSegment.Points.Add(new Point(35, 0));
+            pBezierSegment.Points.Add(new Point(135, 0));
+            pBezierSegment.Points.Add(new Point(160, 100));
+            pBezierSegment.Points.Add(new Point(180, 190));
+            pBezierSegment.Points.Add(new Point(285, 200));
+            pBezierSegment.Points.Add(new Point(310, 100));
+            pFigure.Segments.Add(pBezierSegment);
+
+            // Freeze the PathGeometry for performance benefits.
+
+            PathGeometry animationPath = new PathGeometry();
+            animationPath.Figures.Add(pFigure);
+            animationPath.Freeze();
+
+
+            translateXAnimation.PathGeometry = animationPath;
+            translateXAnimation.Duration = TimeSpan.FromSeconds(5);
+
+            // Set the Source property to X. This makes
+            // the animation generate horizontal offset values from
+            // the path information.
+            translateXAnimation.Source = PathAnimationSource.X;
+
+            
+
+            // Set the animation to target the X property
+            // of the TranslateTransform named "AnimatedTranslateTransform".
+            Storyboard.SetTarget(translateXAnimation, triangleFigure.polygon);
+            Storyboard.SetTargetProperty(translateXAnimation,
+                new PropertyPath(TranslateTransform.XProperty));
+
+            translateXAnimation.BeginAnimation(TranslateTransform.XProperty, animateMove);
+            triangleBoard.Children.Add(translateXAnimation);
+            triangleBoard.Begin();
+
+
 
 
         }
+
+
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
         {
@@ -112,8 +172,8 @@ namespace PolimorphismApp
                 ++x;
             }
             while (x < 10);
-            
-            
+
+
         }
     }
 }

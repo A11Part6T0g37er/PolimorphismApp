@@ -40,9 +40,13 @@ namespace PolimorphismApp
             X = rd.Next(10, (int)pMax.X);
             Y = rd.Next(10, (int)pMax.Y);
 
-            Canvas.SetLeft(polygon, X); 
+            Canvas.SetLeft(polygon, X);
             Canvas.SetTop(polygon, Y);
+            EntryAddIntoTreeList(canvas, childItem);
+        }
 
+        private void EntryAddIntoTreeList(Canvas canvas, TreeViewItem childItem)
+        {
             canvas.Children.Add(polygon);
             TreeViewItem polygonTree = new TreeViewItem();
             polygonTree.Header = polygon.Name + " " + Indexer;
