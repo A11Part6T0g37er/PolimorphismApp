@@ -19,6 +19,9 @@ namespace PolimorphismApp
             polygon.Fill = InitBrush();
             Indexer++;
             polygon.Name = "Triangle";
+
+            shapeNode = new TreeViewItem();
+            shapeNode.Header = polygon.Name + " " + Indexer;
         }
 
         private void InitializeShape()
@@ -34,28 +37,29 @@ namespace PolimorphismApp
             polygon.Points = polygonPoints;
         }
 
-        public override void Draw(Canvas canvas, TreeViewItem childItem)
+        public override void Draw(Canvas canvas)
         {
+            if (!canvas.Children.Contains(polygon))
+            {
 
+            
             X = rd.Next(10, (int)PMax.X);
             Y = rd.Next(10, (int)PMax.Y);
 
             Canvas.SetLeft(polygon, X);
             Canvas.SetTop(polygon, Y);
-            EntryAddIntoTreeList(canvas, childItem);
+            canvas.Children.Add(polygon);
+        }
         }
 
-        private void EntryAddIntoTreeList(Canvas canvas, TreeViewItem childItem)
-        {
-            canvas.Children.Add(polygon);
-            TreeViewItem polygonTree = new TreeViewItem();
-            polygonTree.Header = polygon.Name + " " + Indexer;
-            childItem.Items.Add(polygonTree);
-        }
+        
 
         public override void Move(Point pMax)
         {
-            throw new NotImplementedException();
+            BounceTheBorder(pMax);
+
+            Canvas.SetLeft(polygon, X);
+            Canvas.SetTop(polygon, Y);
         }
 
         public static explicit operator UIElement(TriangleFigure v)

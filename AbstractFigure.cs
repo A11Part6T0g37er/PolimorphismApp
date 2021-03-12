@@ -23,7 +23,7 @@ namespace PolimorphismApp
 
         public TreeViewItem shapeNode;
 
-        public abstract void Draw(Canvas canvas, TreeViewItem childTree);
+        public abstract void Draw(Canvas canvas);
 
         public abstract void Move(Point pMax);
 

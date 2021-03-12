@@ -18,7 +18,7 @@
 
         public Storyboard StoryboardAttemp = new Storyboard();
         private List<AbstractFigure> figuresList = new List<AbstractFigure>();
-        public Point pMax; 
+        public Point pMax;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -38,15 +38,15 @@
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-             pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
+            pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
 
-           
-             foreach (var figure in this.figuresList)
-                {
-                // figure.Draw(canvasFigures);
-                    figure.Move(pMax);
-                }
-           
+
+            foreach (var figure in this.figuresList)
+            {
+                figure.Move(pMax);
+                figure.Draw(canvasFigures);
+            }
+
         }
 
         // just to be sure it still completes basic testcase
@@ -74,7 +74,7 @@
         {
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
-            rectangle.Draw(this.canvasFigures, this.RectTree);
+            
 
 
             RectTree.Items.Add(rectangle.shapeNode);
@@ -90,29 +90,23 @@
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
 
+            TriangleFigure triangleFigure = new TriangleFigure(pMax);
 
 
-            #region WorkingAnimation
-            TriangleFigure triangleFigure = new TriangleFigure(new Point(this.canvasFigures.ActualWidth - 20, this.canvasFigures.ActualHeight - 20));
 
-            triangleFigure.Draw(this.canvasFigures, this.TrianglesTree);
+            TrianglesTree.Items.Add(triangleFigure.shapeNode);
 
-           
+            figuresList.Add(triangleFigure);
         }
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
         {
-            Point pMax = new Point(this.canvasFigures.ActualWidth - 20, this.canvasFigures.ActualHeight - 20);
+
 
             CircleFigure circle = new CircleFigure(pMax);
-            circle.Draw(this.canvasFigures, this.CirclesTree);
-            int x = 0;
-            do
-            {
-                circle.Move(this.canvasFigures);
-                ++x;
-            }
-            while (x < 10);
+
+            CirclesTree.Items.Add(circle.shapeNode);
+            figuresList.Add(circle);
 
         }
     }
