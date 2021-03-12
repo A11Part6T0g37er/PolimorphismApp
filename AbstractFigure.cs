@@ -21,6 +21,8 @@ namespace PolimorphismApp
 
         public Point PMax { get; set; }
 
+        public TreeViewItem shapeNode;
+
         public abstract void Draw(Canvas canvas, TreeViewItem childTree);
 
         public abstract void Move(Point pMax);
@@ -35,7 +37,22 @@ namespace PolimorphismApp
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 8));
             return brush;
         }
+        protected void BounceTheBorder(Point pMax)
+        {
+            if (X <= 0 || X >= pMax.X)
+            {
+                Dx = -Dx;
+            }
 
+            if (Y <= 0 || Y >= pMax.Y)
+            {
+                Dy = -Dy;
+            }
+
+            X += Dx;
+            Y += Dy;
+
+        }
         private int GetMin(double x)
         {
             if (x % 3 >= 0)

@@ -18,29 +18,35 @@
 
         public Storyboard StoryboardAttemp = new Storyboard();
         private List<AbstractFigure> figuresList = new List<AbstractFigure>();
+        public Point pMax; 
         public MainWindow()
         {
             this.InitializeComponent();
 
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Interval = TimeSpan.FromMilliseconds(16);
             timer.Tick += Timer_Tick;
             timer.Start();
 
             // Create a NameScope for this page so that
             // Storyboards can be used.
             NameScope.SetNameScope(this, new NameScope());
+
+            // used by all shapes
+            pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            for(int x = 0; x<100; x++)
-            {
-                foreach(var figure in this.figuresList)
+             pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
+
+           
+             foreach (var figure in this.figuresList)
                 {
-                    figure.Move(new Point(0,0));
+                // figure.Draw(canvasFigures);
+                    figure.Move(pMax);
                 }
-            }
+           
         }
 
         // just to be sure it still completes basic testcase
@@ -67,16 +73,11 @@
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
 
-
-
-            Point pMax = new Point(this.canvasFigures.ActualWidth - 20, this.canvasFigures.ActualHeight - 20);
-
-
-
-
-
             RectangleFigure rectangle = new RectangleFigure(pMax);
             rectangle.Draw(this.canvasFigures, this.RectTree);
+
+
+            RectTree.Items.Add(rectangle.shapeNode);
 
             figuresList.Add(rectangle);
 
@@ -96,74 +97,7 @@
 
             triangleFigure.Draw(this.canvasFigures, this.TrianglesTree);
 
-            var animation1 = new DoubleAnimation(100, 0, new Duration(new TimeSpan(0, 0, 0, 1, 0)))
-            {
-                AutoReverse = true
-            };
-
-            this.StoryboardAttemp.Children.Add(animation1);
-
-            Storyboard.SetTarget(animation1, triangleFigure.polygon);
-            Storyboard.SetTargetProperty(
-                animation1,
-                new PropertyPath(FrameworkElement.HeightProperty));
-
-            StoryboardAttemp.Begin(); 
-            #endregion
-
-
-            // changing X Y properties block
-
-            // Create a DoubleAnimationUsingPath to move the
-            // rectangle horizontally along the path by animating
-            // its TranslateTransform.
-            TranslateTransform animatedTranslateTransform =
-                new TranslateTransform();
-
-            var animateMove = new DoubleAnimation(triangleFigure.X, 120, new Duration(new TimeSpan(0, 0, 2)));
-
-            // triangleBoard.Children.Add(animateMove);
-            // Storyboard.SetTarget(animateMove, triangleFigure.polygon);
-            // Storyboard.SetTargetProperty(animateMove,
-            // new PropertyPath(TranslateTransform.XProperty));
-            DoubleAnimationUsingPath translateXAnimation =
-                new DoubleAnimationUsingPath();
-
-           // init pathGeometry
-            PathFigure pFigure = new PathFigure();
-            pFigure.StartPoint = new Point(10, 100);
-            PolyBezierSegment pBezierSegment = new PolyBezierSegment();
-            pBezierSegment.Points.Add(new Point(35, 0));
-            pBezierSegment.Points.Add(new Point(135, 0));
-            pBezierSegment.Points.Add(new Point(160, 100));
-            pBezierSegment.Points.Add(new Point(180, 190));
-            pBezierSegment.Points.Add(new Point(285, 200));
-            pBezierSegment.Points.Add(new Point(310, 100));
-            pFigure.Segments.Add(pBezierSegment);
-
-            // Freeze the PathGeometry for performance benefits.
-            PathGeometry animationPath = new PathGeometry();
-            animationPath.Figures.Add(pFigure);
-            animationPath.Freeze();
-
-            translateXAnimation.PathGeometry = animationPath;
-            translateXAnimation.Duration = TimeSpan.FromSeconds(5);
-
-            // Set the Source property to X. This makes
-            // the animation generate horizontal offset values from
-            // the path information.
-            translateXAnimation.Source = PathAnimationSource.X;
-
-            // Set the animation to target the X property
-            // of the TranslateTransform named "AnimatedTranslateTransform".
-            Storyboard.SetTarget(translateXAnimation, triangleFigure.polygon);
-            Storyboard.SetTargetProperty(
-                translateXAnimation,
-                new PropertyPath(TranslateTransform.XProperty));
-
-            translateXAnimation.BeginAnimation(TranslateTransform.XProperty, animateMove);
-            this.TriangleBoard.Children.Add(translateXAnimation);
-            this.TriangleBoard.Begin();
+           
         }
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)

@@ -13,6 +13,7 @@ namespace PolimorphismApp
         public Rectangle rect;
         public static int Index = 0;
 
+        
         public RectangleFigure(Point pMax)
         {
             this.rect = new Rectangle() { Height = 40, Width = 40 };
@@ -21,6 +22,9 @@ namespace PolimorphismApp
             Index++;
 
             rect.Name = "Square";
+
+            shapeNode = new TreeViewItem();
+            shapeNode.Header = rect.Name + " " + Index;
         }
 
       
@@ -30,8 +34,8 @@ namespace PolimorphismApp
 
         public override void Move(Point pMax)
         {
-            X++;
-            Y++;
+            BounceTheBorder(pMax);
+            
             Canvas.SetLeft(rect, X);
             Canvas.SetTop(rect, Y);
         }
@@ -51,9 +55,9 @@ namespace PolimorphismApp
             Canvas.SetTop(rect, Y);
             canvasFigures.Children.Add(rect);
 
-            TreeViewItem Child1Item = new TreeViewItem();
-            Child1Item.Header = rect.Name +" "  + Index ;
-            rectTree.Items.Add(Child1Item);
+            //TreeViewItem Child1Item = new TreeViewItem();
+            //Child1Item.Header = rect.Name +" "  + Index;
+            //rectTree.Items.Add(Child1Item);
 
         }
     }
