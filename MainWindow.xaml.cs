@@ -16,6 +16,7 @@
 
         private List<AbstractFigure> figuresList = new List<AbstractFigure>();
         public Point pMax;
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -27,8 +28,6 @@
             timer.Tick += Timer_Tick;
             timer.Start();
 
-
-
             // used by all shapes
             pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
         }
@@ -36,7 +35,6 @@
         private void Timer_Tick(object sender, EventArgs e)
         {
             pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
-
 
             foreach (var figure in this.figuresList)
             {
@@ -65,24 +63,16 @@
 
         }
 
-
-
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
 
-
-
             RectTree.Items.Add(rectangle.shapeNode);
 
             figuresList.Add(rectangle);
 
-
-
         }
-
-
 
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
