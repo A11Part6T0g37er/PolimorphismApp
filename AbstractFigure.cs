@@ -2,15 +2,18 @@
 // Copyright (c) IndieWareCompany. All rights reserved.
 // </copyright>
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
 namespace PolimorphismApp
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-
     internal abstract class AbstractFigure
     {
+        /// <summary>
+        /// Simple wrapper for objects derived from Shape;
+        /// </summary>
         public int X { get; set; }
 
         public int Y { get; set; }
@@ -40,18 +43,18 @@ namespace PolimorphismApp
         }
         protected void BounceTheBorder(Point pMax)
         {
-            if (X <= 0 || X >= pMax.X)
+            if (this.X <= 0 || this.X >= pMax.X)
             {
-                Dx = -Dx;
+                this.Dx = -this.Dx;
             }
 
-            if (Y <= 0 || Y >= pMax.Y)
+            if (this.Y <= 0 || this.Y >= pMax.Y)
             {
-                Dy = -Dy;
+                this.Dy = -this.Dy;
             }
 
-            X += Dx;
-            Y += Dy;
+            this.X += this.Dx;
+            this.Y += this.Dy;
 
         }
         

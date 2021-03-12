@@ -1,9 +1,13 @@
-﻿namespace PolimorphismApp
-{
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Shapes;
+﻿// <copyright file="CircleFigure.cs" company="IndieWare Ink.">
+// Copyright (c) IndieWare Ink.. All rights reserved.
+// </copyright>
 
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Shapes;
+
+namespace PolimorphismApp
+{
     internal class CircleFigure : AbstractFigure
     {
         public CircleFigure(Point pMax)
@@ -16,9 +20,9 @@
             this.ellipse.Stroke.Freeze();
             Indexer++;
 
-            shapeNode = new TreeViewItem
+            this.shapeNode = new TreeViewItem
             {
-                Header = this.ellipse.Name + " " + Indexer
+                Header = this.ellipse.Name + " " + Indexer,
             };
         }
 
@@ -27,35 +31,30 @@
         // private Point pMax;
         public Ellipse ellipse { get; private set; }
 
-
-
-
         public override void Move(Point pMax)
         {
 
-
-            BounceTheBorder(pMax);
-            Canvas.SetLeft(ellipse, X);
-            Canvas.SetTop(ellipse, Y);
+            this.BounceTheBorder(pMax);
+            Canvas.SetLeft(this.ellipse, this.X);
+            Canvas.SetTop(this.ellipse, this.Y);
 
         }
 
         public override void Draw(Canvas canvas)
         {
 
-            if (!canvas.Children.Contains(ellipse))
+            if (!canvas.Children.Contains(this.ellipse))
             {
 
-                X = rd.Next(0, (int)PMax.X);
-                Y = rd.Next(0, (int)PMax.Y);
-                Canvas.SetLeft(this.ellipse, X);
-                Canvas.SetTop(this.ellipse, Y);
+                this.X = this.rd.Next(0, (int)this.PMax.X);
+                this.Y = this.rd.Next(0, (int)this.PMax.Y);
+                Canvas.SetLeft(this.ellipse, this.X);
+                Canvas.SetTop(this.ellipse, this.Y);
                 canvas.Children.Add(this.ellipse);
 
             }
 
         }
-
 
     }
 }

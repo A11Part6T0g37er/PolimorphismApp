@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="App.xaml.cs" company="IndieWare Ink.">
+// Copyright (c) IndieWare Ink.. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;

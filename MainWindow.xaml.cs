@@ -1,13 +1,17 @@
-﻿namespace PolimorphismApp
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using System.Windows.Shapes;
-    using System.Windows.Threading;
+﻿// <copyright file="MainWindow.xaml.cs" company="IndieWare Ink.">
+// Copyright (c) IndieWare Ink.. All rights reserved.
+// </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+
+namespace PolimorphismApp
+{
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
@@ -25,21 +29,21 @@
             {
                 Interval = TimeSpan.FromMilliseconds(14),
             };
-            timer.Tick += Timer_Tick;
+            timer.Tick += this.Timer_Tick;
             timer.Start();
 
             // used by all shapes
-            pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
+            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
+            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
 
             foreach (var figure in this.figuresList)
             {
-                figure.Move(pMax);
-                figure.Draw(canvasFigures);
+                figure.Move(this.pMax);
+                figure.Draw(this.canvasFigures);
             }
 
         }
@@ -66,32 +70,31 @@
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
 
-            RectangleFigure rectangle = new RectangleFigure(pMax);
+            RectangleFigure rectangle = new RectangleFigure(this.pMax);
 
-            RectTree.Items.Add(rectangle.shapeNode);
+            this.RectTree.Items.Add(rectangle.shapeNode);
 
-            figuresList.Add(rectangle);
+            this.figuresList.Add(rectangle);
 
         }
 
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
 
-            TriangleFigure triangleFigure = new TriangleFigure(pMax);
+            TriangleFigure triangleFigure = new TriangleFigure(this.pMax);
 
-            TrianglesTree.Items.Add(triangleFigure.shapeNode);
+            this.TrianglesTree.Items.Add(triangleFigure.shapeNode);
 
-            figuresList.Add(triangleFigure);
+            this.figuresList.Add(triangleFigure);
         }
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
         {
 
+            CircleFigure circle = new CircleFigure(this.pMax);
 
-            CircleFigure circle = new CircleFigure(pMax);
-
-            CirclesTree.Items.Add(circle.shapeNode);
-            figuresList.Add(circle);
+            this.CirclesTree.Items.Add(circle.shapeNode);
+            this.figuresList.Add(circle);
 
         }
     }

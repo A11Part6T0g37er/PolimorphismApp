@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿// <copyright file="TriangleFigure.cs" company="IndieWare Ink.">
+// Copyright (c) IndieWare Ink.. All rights reserved.
+// </copyright>
+
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -16,14 +20,13 @@ namespace PolimorphismApp
             this.PMax = pmax;
             this.InitializeShape();
 
-
-            polygon.Stroke = this.InitBrush();
-            polygon.Stroke.Freeze();
+            this.polygon.Stroke = this.InitBrush();
+            this.polygon.Stroke.Freeze();
 
             Indexer++;
-            polygon.Name = "Triangle";
-            shapeNode = new TreeViewItem();
-            shapeNode.Header = polygon.Name + " " + Indexer;
+            this.polygon.Name = "Triangle";
+            this.shapeNode = new TreeViewItem();
+            this.shapeNode.Header = this.polygon.Name + " " + Indexer;
         }
 
         private void InitializeShape()
@@ -38,31 +41,29 @@ namespace PolimorphismApp
                 Point2,
                 Point3,
             };
-            polygon.Points = polygonPoints;
+            this.polygon.Points = polygonPoints;
         }
 
         public override void Draw(Canvas canvas)
         {
-            if (!canvas.Children.Contains(polygon))
+            if (!canvas.Children.Contains(this.polygon))
             {
 
-                X = rd.Next(10, (int)PMax.X);
-                Y = rd.Next(10, (int)PMax.Y);
+                this.X = this.rd.Next(10, (int)this.PMax.X);
+                this.Y = this.rd.Next(10, (int)this.PMax.Y);
 
-                Canvas.SetLeft(polygon, X);
-                Canvas.SetTop(polygon, Y);
-                canvas.Children.Add(polygon);
+                Canvas.SetLeft(this.polygon, this.X);
+                Canvas.SetTop(this.polygon, this.Y);
+                canvas.Children.Add(this.polygon);
             }
         }
 
-
-
         public override void Move(Point pMax)
         {
-            BounceTheBorder(pMax);
+            this.BounceTheBorder(pMax);
 
-            Canvas.SetLeft(polygon, X);
-            Canvas.SetTop(polygon, Y);
+            Canvas.SetLeft(this.polygon, this.X);
+            Canvas.SetTop(this.polygon, this.Y);
         }
 
         public static explicit operator UIElement(TriangleFigure v)
