@@ -20,15 +20,15 @@ namespace PolimorphismApp
 
         private List<AbstractFigure> figuresList = new List<AbstractFigure>();
         public Point pMax;
-
+        DispatcherTimer timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(14),
+        };
         public MainWindow()
         {
             this.InitializeComponent();
 
-            DispatcherTimer timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(14),
-            };
+            
             timer.Tick += this.Timer_Tick;
             timer.Start();
 
@@ -96,6 +96,19 @@ namespace PolimorphismApp
             this.CirclesTree.Items.Add(circle.shapeNode);
             this.figuresList.Add(circle);
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (timer.IsEnabled)
+            {
+            timer.Stop();
+
+            }
+            else
+            {
+                timer.Start();
+            }
         }
     }
 }
