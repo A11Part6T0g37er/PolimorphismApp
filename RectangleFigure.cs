@@ -8,7 +8,7 @@ namespace PolimorphismApp
     {
 
 
-        public Rectangle rect;
+        public Rectangle rect { get; private set; }
         public static int Indexer = 0;
 
 
@@ -24,7 +24,7 @@ namespace PolimorphismApp
 
             rect.Name = "Square";
 
-            shapeNode = new TreeViewItem();
+            this.shapeNode = new TreeViewItem();
             shapeNode.Header = rect.Name + " " + Indexer;
         }
 

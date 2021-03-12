@@ -5,7 +5,6 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using System.Windows.Media.Animation;
     using System.Windows.Shapes;
     using System.Windows.Threading;
 
@@ -14,23 +13,21 @@
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Storyboard TriangleBoard = new Storyboard();
 
-        public Storyboard StoryboardAttemp = new Storyboard();
         private List<AbstractFigure> figuresList = new List<AbstractFigure>();
         public Point pMax;
         public MainWindow()
         {
             this.InitializeComponent();
 
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(14);
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(14),
+            };
             timer.Tick += Timer_Tick;
             timer.Start();
 
-            // Create a NameScope for this page so that
-            // Storyboards can be used.
-            NameScope.SetNameScope(this, new NameScope());
+
 
             // used by all shapes
             pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
@@ -74,7 +71,7 @@
         {
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
-            
+
 
 
             RectTree.Items.Add(rectangle.shapeNode);
@@ -86,13 +83,11 @@
         }
 
 
-        // Trying to make it move
+
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
 
             TriangleFigure triangleFigure = new TriangleFigure(pMax);
-
-
 
             TrianglesTree.Items.Add(triangleFigure.shapeNode);
 

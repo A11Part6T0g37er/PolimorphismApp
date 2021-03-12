@@ -16,11 +16,12 @@
             this.ellipse.Stroke.Freeze();
             Indexer++;
 
-            shapeNode = new TreeViewItem();
-            shapeNode.Header = this.ellipse.Name + " " + Indexer;
+            shapeNode = new TreeViewItem
+            {
+                Header = this.ellipse.Name + " " + Indexer
+            };
         }
 
-        private Canvas internalCanvas;
         private static int Indexer = 0;
 
         // private Point pMax;

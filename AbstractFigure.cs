@@ -54,16 +54,6 @@ namespace PolimorphismApp
             Y += Dy;
 
         }
-        private int GetMin(double x)
-        {
-            if (x % 3 >= 0)
-            {
-                return (int)x % 3;
-            }
-            else
-            {
-                return 0;
-            }
-        }
+        
     }
 }

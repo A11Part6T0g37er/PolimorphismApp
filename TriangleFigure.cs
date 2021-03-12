@@ -32,10 +32,12 @@ namespace PolimorphismApp
             System.Windows.Point Point1 = new System.Windows.Point(20, 10);
             Point Point2 = new System.Windows.Point(40, 40);
             Point Point3 = new System.Windows.Point(0, 40);
-            PointCollection polygonPoints = new PointCollection();
-            polygonPoints.Add(Point1);
-            polygonPoints.Add(Point2);
-            polygonPoints.Add(Point3);
+            PointCollection polygonPoints = new PointCollection
+            {
+                Point1,
+                Point2,
+                Point3,
+            };
             polygon.Points = polygonPoints;
         }
 
