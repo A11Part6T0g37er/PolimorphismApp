@@ -10,13 +10,14 @@
         {
             this.PMax = pMax;
             this.ellipse = new Ellipse() { Height = 40, Width = 40 };
-            this.ellipse.Fill = InitBrush();
+            this.ellipse.Stroke = this.InitBrush();
+            this.ellipse.StrokeThickness = 2;
+            this.ellipse.Name = "Circle";
+            this.ellipse.Stroke.Freeze();
             Indexer++;
 
-            this.ellipse.Name = "Circle";
-
             shapeNode = new TreeViewItem();
-                shapeNode.Header = this.ellipse.Name + " " + Indexer;
+            shapeNode.Header = this.ellipse.Name + " " + Indexer;
         }
 
         private Canvas internalCanvas;
@@ -38,7 +39,7 @@
 
         }
 
-        public override void Draw(Canvas canvas )
+        public override void Draw(Canvas canvas)
         {
 
             if (!canvas.Children.Contains(ellipse))
@@ -54,6 +55,6 @@
 
         }
 
-        
+
     }
 }

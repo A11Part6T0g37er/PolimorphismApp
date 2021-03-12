@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -15,11 +14,14 @@ namespace PolimorphismApp
         public TriangleFigure(Point pmax)
         {
             this.PMax = pmax;
-            InitializeShape();
-            polygon.Fill = InitBrush();
+            this.InitializeShape();
+
+
+            polygon.Stroke = this.InitBrush();
+            polygon.Stroke.Freeze();
+
             Indexer++;
             polygon.Name = "Triangle";
-
             shapeNode = new TreeViewItem();
             shapeNode.Header = polygon.Name + " " + Indexer;
         }
@@ -42,17 +44,16 @@ namespace PolimorphismApp
             if (!canvas.Children.Contains(polygon))
             {
 
-            
-            X = rd.Next(10, (int)PMax.X);
-            Y = rd.Next(10, (int)PMax.Y);
+                X = rd.Next(10, (int)PMax.X);
+                Y = rd.Next(10, (int)PMax.Y);
 
-            Canvas.SetLeft(polygon, X);
-            Canvas.SetTop(polygon, Y);
-            canvas.Children.Add(polygon);
-        }
+                Canvas.SetLeft(polygon, X);
+                Canvas.SetTop(polygon, Y);
+                canvas.Children.Add(polygon);
+            }
         }
 
-        
+
 
         public override void Move(Point pMax)
         {

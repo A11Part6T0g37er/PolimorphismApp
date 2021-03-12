@@ -15,7 +15,10 @@ namespace PolimorphismApp
         public RectangleFigure(Point pMax)
         {
             this.rect = new Rectangle() { Height = 40, Width = 40 };
-            this.rect.Fill = InitBrush();
+           
+            this.rect.Stroke = InitBrush();
+            this.rect.StrokeThickness = 2;
+            this.rect.Stroke.Freeze();
             this.PMax = pMax;
             Indexer++;
 

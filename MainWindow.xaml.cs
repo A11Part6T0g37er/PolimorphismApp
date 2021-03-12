@@ -24,7 +24,7 @@
             this.InitializeComponent();
 
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(16);
+            timer.Interval = TimeSpan.FromMilliseconds(14);
             timer.Tick += Timer_Tick;
             timer.Start();
 
