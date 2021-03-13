@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -49,21 +50,40 @@ namespace PolimorphismApp
         }
 
         // just to be sure it still completes basic testcase
-        private void CanvasArea_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void CanvasArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Shape rendershape = new Ellipse() { Height = 40, Width = 40 };
+            IInputElement clickedElement = Mouse.DirectlyOver;
+            if (clickedElement is Rectangle)
+            {
+                MessageBox.Show("Gotta!!!");
+            }
 
-            RadialGradientBrush brush = new RadialGradientBrush();
 
-            brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.850));
-            brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.400));
-            brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 8));
-            rendershape.Fill = brush;
 
-            Canvas.SetLeft(rendershape, e.GetPosition(this.canvasFigures).X);
-            Canvas.SetTop(rendershape, e.GetPosition(this.canvasFigures).Y);
 
-            this.canvasFigures.Children.Add(rendershape);
+
+
+
+
+
+
+
+
+
+
+            //Shape rendershape = new Ellipse() { Height = 40, Width = 40 };
+
+            //RadialGradientBrush brush = new RadialGradientBrush();
+
+            //brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.850));
+            //brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.400));
+            //brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 8));
+            //rendershape.Fill = brush;
+
+            //Canvas.SetLeft(rendershape, e.GetPosition(this.canvasFigures).X);
+            //Canvas.SetTop(rendershape, e.GetPosition(this.canvasFigures).Y);
+
+            //this.canvasFigures.Children.Add(rendershape);
 
         }
 
