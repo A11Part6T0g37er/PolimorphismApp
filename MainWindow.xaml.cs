@@ -196,5 +196,15 @@ TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
                 StopClicked = false;
             }
         }
+
+        private void MenuOpen_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
