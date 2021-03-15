@@ -54,7 +54,7 @@ namespace PolimorphismApp
 
         }
 
-        // just to be sure it still completes basic testcase
+        
         private void CanvasArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             IInputElement clickedElement = Mouse.DirectlyOver;
