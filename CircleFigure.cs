@@ -27,6 +27,8 @@ namespace PolimorphismApp
             {
                 Header = this.ellipse.Name + " " + Indexer,
             };
+                this.X = this.rd.Next(0, (int)this.PMax.X);
+                this.Y = this.rd.Next(0, (int)this.PMax.Y);
             ShapeForm = this.ellipse;
         }
 
@@ -50,8 +52,6 @@ namespace PolimorphismApp
             if (!canvas.Children.Contains(this.ellipse))
             {
 
-                this.X = this.rd.Next(0, (int)this.PMax.X);
-                this.Y = this.rd.Next(0, (int)this.PMax.Y);
                 Canvas.SetLeft(this.ellipse, this.X);
                 Canvas.SetTop(this.ellipse, this.Y);
                 canvas.Children.Add(this.ellipse);

@@ -29,6 +29,8 @@ namespace PolimorphismApp
             this.polygon.Name = "Triangle";
             this.shapeNode = new TreeViewItem();
             this.shapeNode.Header = this.polygon.Name + " " + Indexer;
+                this.X = this.rd.Next(10, (int)this.PMax.X);
+                this.Y = this.rd.Next(10, (int)this.PMax.Y);
             ShapeForm = this.polygon;
         }
 
@@ -52,8 +54,6 @@ namespace PolimorphismApp
             if (!canvas.Children.Contains(this.polygon))
             {
 
-                this.X = this.rd.Next(10, (int)this.PMax.X);
-                this.Y = this.rd.Next(10, (int)this.PMax.Y);
 
                 Canvas.SetLeft(this.polygon, this.X);
                 Canvas.SetTop(this.polygon, this.Y);

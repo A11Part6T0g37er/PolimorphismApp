@@ -3,14 +3,10 @@
 // </copyright>
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -35,7 +31,7 @@ namespace PolimorphismApp
         {
             this.InitializeComponent();
 
-            
+
             timer.Tick += this.Timer_Tick;
             timer.Start();
 
@@ -64,7 +60,7 @@ namespace PolimorphismApp
             IInputElement clickedElement = Mouse.DirectlyOver;
 
 
-           
+
 
 
 
@@ -72,29 +68,89 @@ namespace PolimorphismApp
             if (clickedElement is Rectangle)
             {
                 var obj = clickedElement as Rectangle;
-            int i =    canvasFigures.Children.IndexOf(obj);
-               
-              Rectangle some = (Rectangle)canvasFigures.Children[i];
-                
+                int i = canvasFigures.Children.IndexOf(obj);
 
-          int X =    (int)  obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
+                Rectangle some = (Rectangle)canvasFigures.Children[i];
+
+
+                int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
                 int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
-                var toDel =  figuresList.Find(x => x.X == X && x.Y == Y);
+                var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
 
-                
+
 
                 if (StopClicked)
                     figuresList.Remove(toDel);
                 if (!StopClicked)
                 {
-RectangleFigure rf = new RectangleFigure(pMax) { Y = Y , X= X };
+                    if (!figuresList.Contains(toDel))
+                    {
+                        RectangleFigure rf = new RectangleFigure(pMax) { Y = Y, X = X };
+                        canvasFigures.Children.Remove(obj);
+                        figuresList.Add(rf);
+                    }
+                }
+
+            }
+
+            if (clickedElement is Ellipse)
+            {
+                var obj = clickedElement as Ellipse;
+                int i = canvasFigures.Children.IndexOf(obj);
+
+                Ellipse some = (Ellipse)canvasFigures.Children[i];
+
+
+                int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
+                int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
+                var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
+
+
+
+                if (StopClicked)
+                    figuresList.Remove(toDel);
+                if (!StopClicked)
+                {
+                    if (!figuresList.Contains(toDel))
+                    {
+                        CircleFigure rf = new CircleFigure(pMax) { Y = Y, X = X };
+                        canvasFigures.Children.Remove(obj);
+                        figuresList.Add(rf);
+                    }
+                }
+
+            }
+
+            if (clickedElement is Polygon)
+            {
+                var obj = clickedElement as Polygon;
+                int i = canvasFigures.Children.IndexOf(obj);
+
+                Polygon some = (Polygon)canvasFigures.Children[i];
+
+
+                int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
+                int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
+                var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
+
+
+
+                if (StopClicked)
+                    figuresList.Remove(toDel);
+                if (!StopClicked)
+                {
+                    if (!figuresList.Contains(toDel))
+                    {
+TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
                     canvasFigures.Children.Remove(obj);
                     figuresList.Add(rf);
+                    }
+                    
                 }
-               
+
             }
-           
-            
+
+
         }
 
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
