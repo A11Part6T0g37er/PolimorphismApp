@@ -10,11 +10,12 @@ using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
-    internal class RectangleFigure : AbstractFigure
+    public class RectangleFigure : AbstractFigure
     {
         public Rectangle rect { get;  set; }
         public static int Indexer = 0;
 
+        public RectangleFigure() { }
         public RectangleFigure(Point pMax)
         {
             this.rect = new Rectangle() { Height = 40, Width = 40 };

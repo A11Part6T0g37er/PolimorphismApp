@@ -4,11 +4,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 
 namespace PolimorphismApp
 {
@@ -208,11 +210,24 @@ TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
+        // serialization testcase
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
+            object rf = new object();
+            rf += "sdf";
+            // передаем в конструктор тип класса
+            XmlSerializer formatter = new XmlSerializer(rf.GetType());
+
+            // получаем поток, куда будем записывать сериализованный объект
+            using (FileStream fs = new FileStream("persons.xml", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, rf);
+
+               MessageBox.Show("Объект сериализован");
+            }
+
 
         }
     }

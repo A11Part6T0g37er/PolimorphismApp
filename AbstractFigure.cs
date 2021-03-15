@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
-    internal abstract class AbstractFigure
+    public abstract class AbstractFigure
     {
         /// <summary>
         /// Simple wrapper for objects derived from Shape;
