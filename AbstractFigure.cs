@@ -6,6 +6,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
@@ -26,6 +27,11 @@ namespace PolimorphismApp
 
         public TreeViewItem shapeNode;
 
+        public Shape ShapeForm { get; set; }
+        public virtual Shape GetShape()
+        {
+            return ShapeForm;
+        }
         public abstract void Draw(Canvas canvas);
 
         public abstract void Move(Point pMax);
@@ -38,7 +44,7 @@ namespace PolimorphismApp
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7695"), 0.250));
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7695"), 0.100));
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7695"), 8));
-            brush.Freeze();
+
             return brush;
         }
         protected void BounceTheBorder(Point pMax)
@@ -57,6 +63,6 @@ namespace PolimorphismApp
             this.Y += this.Dy;
 
         }
-        
+
     }
 }

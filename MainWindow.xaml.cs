@@ -3,9 +3,12 @@
 // </copyright>
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -23,8 +26,11 @@ namespace PolimorphismApp
         public Point pMax;
         DispatcherTimer timer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(14),
+            Interval = TimeSpan.FromMilliseconds(30),
         };
+
+        public bool StopClicked { get; private set; } = false;
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -43,8 +49,11 @@ namespace PolimorphismApp
 
             foreach (var figure in this.figuresList)
             {
-                figure.Move(this.pMax);
-                figure.Draw(this.canvasFigures);
+                if (figure != null)
+                {
+                    figure.Move(this.pMax);
+                    figure.Draw(this.canvasFigures);
+                }
             }
 
         }
@@ -53,38 +62,39 @@ namespace PolimorphismApp
         private void CanvasArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             IInputElement clickedElement = Mouse.DirectlyOver;
+
+
+           
+
+
+
+
             if (clickedElement is Rectangle)
             {
-                MessageBox.Show("Gotta!!!");
+                var obj = clickedElement as Rectangle;
+            int i =    canvasFigures.Children.IndexOf(obj);
+               
+              Rectangle some = (Rectangle)canvasFigures.Children[i];
+                
+
+          int X =    (int)  obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
+                int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
+                var toDel =  figuresList.Find(x => x.X == X && x.Y == Y);
+
+                
+
+                if (StopClicked)
+                    figuresList.Remove(toDel);
+                if (!StopClicked)
+                {
+RectangleFigure rf = new RectangleFigure(pMax) { Y = Y , X= X };
+                    canvasFigures.Children.Remove(obj);
+                    figuresList.Add(rf);
+                }
+               
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //Shape rendershape = new Ellipse() { Height = 40, Width = 40 };
-
-            //RadialGradientBrush brush = new RadialGradientBrush();
-
-            //brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.850));
-            //brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 0.400));
-            //brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF7689"), 8));
-            //rendershape.Fill = brush;
-
-            //Canvas.SetLeft(rendershape, e.GetPosition(this.canvasFigures).X);
-            //Canvas.SetTop(rendershape, e.GetPosition(this.canvasFigures).Y);
-
-            //this.canvasFigures.Children.Add(rendershape);
-
+           
+            
         }
 
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
@@ -120,14 +130,14 @@ namespace PolimorphismApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (timer.IsEnabled)
+            if (!StopClicked)
             {
-            timer.Stop();
+                StopClicked = true;
 
             }
             else
             {
-                timer.Start();
+                StopClicked = false;
             }
         }
     }

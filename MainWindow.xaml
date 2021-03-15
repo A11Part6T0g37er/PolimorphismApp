@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TreeView  Background="LightCyan" HorizontalAlignment="Left" Height="347" Margin="0,72,0,0" VerticalAlignment="Top" Width="157">
-            <TreeViewItem x:Name="FiguresTreeView" Header="Figures" IsExpanded="True">
+        <TreeView  Background="LightCyan" Margin="0,72,630,0" RenderTransformOrigin="-1.376,0.507" HorizontalAlignment="Right" Width="152" Height="337" VerticalAlignment="Top">
+            
+                <TreeViewItem x:Name="FiguresTreeView" Header="Figures" IsExpanded="True">
                 <TreeViewItem x:Name="RectTree" Header="Rectangles" />
                 <TreeViewItem x:Name="TrianglesTree"  Header="Triangles"/>
                 <TreeViewItem x:Name="CirclesTree" Header="Circles" />
@@ -20,6 +21,7 @@
             <Button Content="Rect btn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,10,0,0" Width="101" Click="CreateRectangleShape" Height="35"/>
             <Button Content="Triangle btn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,10,0,0" Width="101" Click="CreateTriangleShape" Height="35"/>
             <Button Content="Circ btn" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="100,10,0,0" Width="101" Click="CreateCircleShape" Height="35"/>
+
         </StackPanel>
 
         <Canvas x:Name="canvasFigures" Background="LightGray" Cursor="Hand" MouseLeftButtonDown="CanvasArea_MouseLeftButtonDown" Margin="180,72,0,0"/>

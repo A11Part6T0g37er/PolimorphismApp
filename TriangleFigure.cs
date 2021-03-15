@@ -19,14 +19,17 @@ namespace PolimorphismApp
         {
             this.PMax = pmax;
             this.InitializeShape();
-
             this.polygon.Stroke = this.InitBrush();
             this.polygon.Stroke.Freeze();
+            this.polygon.Fill = this.InitBrush();
+            this.polygon.Fill.Opacity = 0.0;
+            this.polygon.Fill.Freeze();
 
             Indexer++;
             this.polygon.Name = "Triangle";
             this.shapeNode = new TreeViewItem();
             this.shapeNode.Header = this.polygon.Name + " " + Indexer;
+            ShapeForm = this.polygon;
         }
 
         private void InitializeShape()

@@ -17,6 +17,9 @@ namespace PolimorphismApp
             this.ellipse.Stroke = this.InitBrush();
             this.ellipse.StrokeThickness = 2;
             this.ellipse.Name = "Circle";
+            this.ellipse.Fill = this.InitBrush();
+            this.ellipse.Fill.Opacity = 0.0;
+            this.ellipse.Fill.Freeze();
             this.ellipse.Stroke.Freeze();
             Indexer++;
 
@@ -24,6 +27,7 @@ namespace PolimorphismApp
             {
                 Header = this.ellipse.Name + " " + Indexer,
             };
+            ShapeForm = this.ellipse;
         }
 
         private static int Indexer = 0;
