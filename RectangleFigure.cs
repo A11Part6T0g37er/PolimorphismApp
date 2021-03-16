@@ -10,9 +10,12 @@ using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
+    [Serializable]
     public class RectangleFigure : AbstractFigure
     {
+        
         public Rectangle rect { get;  set; }
+       
         public static int Indexer = 0;
 
         public RectangleFigure() { }

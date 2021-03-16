@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
+    [Serializable]
     public abstract class AbstractFigure
     {
         /// <summary>

@@ -26,7 +26,7 @@ namespace PolimorphismApp
             this.polygon.Fill.Freeze();
 
             Indexer++;
-            this.polygon.Name = "Triangle";
+            this.polygon.Name = "Triangle" ;
             this.shapeNode = new TreeViewItem();
             this.shapeNode.Header = this.polygon.Name + " " + Indexer;
                 this.X = this.rd.Next(10, (int)this.PMax.X);

@@ -2,11 +2,15 @@
 // Copyright (c) IndieWare Ink.. All rights reserved.
 // </copyright>
 
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Serialization;
@@ -209,34 +213,116 @@ namespace PolimorphismApp
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
-            string obr = String.Empty;
-            XmlSerializer formatter = new XmlSerializer(typeof (string));
-            // получаем поток, куда будем записывать сериализованный объект
-            using (FileStream fs = new FileStream("persons.xml", FileMode.OpenOrCreate))
-            {
-             obr =   (string) formatter.Deserialize(fs);
+            OpenFileDialog Fd = new OpenFileDialog();
+            Fd.ShowDialog();
+            string LoadedFileName = Fd.FileName;
 
-                MessageBox.Show("Объект сериализован");
-                MessageBox.Show(obr.ToString());
+            string path = "Figa.binnary";
+
+            List<AbstractFigure> listnewAbstract = new List<AbstractFigure>();
+
+
+            
+           
+            //bINNARYDeSerialization(listnewAbstract);
+
+            canvasFigures.Children.Clear();
+
+            figuresList.Clear();
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = new FileStream(path, FileMode.Open);
+            object result = null;
+            using (fs)
+            {
+
+             result =   bf.Deserialize(fs);
             }
+            UIElementCollection s = new UIElementCollection(canvasFigures, canvasFigures);
+            s.Add((UIElement)XamlReader.Parse(result.ToString()) );
+
+            MessageBox.Show(s.ToString());
+
+        }
+
+        private static void bINNARYDeSerialization(List<AbstractFigure> listnewAbstract)
+        {
+            
+            BinaryFormatter bf = new BinaryFormatter();
+
+            FileStream fsin = new FileStream("Figures.bin", FileMode.Open, FileAccess.Read, FileShare.None);
+            try
+            {
+                using (fsin)
+                {
+                    MessageBox.Show(fsin.ToString());
+                    MessageBox.Show(bf.Deserialize(fsin).ToString());
+                    //listnewAbstract.Add((AbstractFigure)bf.Deserialize(fsin));
+
+                    MessageBox.Show("Object Deserialized");
+
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("An error has occured");
+            }
+
+           
+
         }
 
         // serialization testcase
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
-            string rf;
-            rf = "sdf";
-            // передаем в конструктор тип класса
-            XMLSerialization(rf);
+
+            WorkingCanvasSave("Figa.binnary");
+
+            RectangleFigure rf = new RectangleFigure(pMax);
+            Rectangle rect = new Rectangle() { Height = 40, Width = 40 };
+            rect.Fill = rf.rect.Fill;
+            
+            string path = "Figures.bin";
+
+            BinaryFormatter bf = new BinaryFormatter();
+
+            FileStream fsout = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            try
+            {
+                using (fsout)
+                {
+                    bf.Serialize(fsout, rect);
+                    MessageBox.Show("Object Serialized");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("An error has occured " + ex.Message);
+            }
+            //WorkingCanvasSave(path);
 
         }
 
-        private static void XMLSerialization(object rf)
+        private void WorkingCanvasSave(string path)
+        {
+            string mystrXAML = XamlWriter.Save(canvasFigures.Children);
+           
+            FileStream streamwriter = new FileStream(path, FileMode.Create , FileAccess.Write);
+
+            BinaryFormatter bf = new BinaryFormatter();
+           using(streamwriter)
+            bf.Serialize(streamwriter,mystrXAML);
+
+           
+            
+        }
+
+        private static void XMLSerialization(RectangleFigure rf)
         {
             XmlSerializer formatter = new XmlSerializer(rf.GetType());
 
             // получаем поток, куда будем записывать сериализованный объект
-            using (FileStream fs = new FileStream("persons.xml", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("Figures.xml", FileMode.OpenOrCreate))
             {
                 formatter.Serialize(fs, rf);
 
