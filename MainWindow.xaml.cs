@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shapes;
@@ -56,7 +55,7 @@ namespace PolimorphismApp
 
         }
 
-        
+
         private void CanvasArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             IInputElement clickedElement = Mouse.DirectlyOver;
@@ -143,11 +142,11 @@ namespace PolimorphismApp
                 {
                     if (!figuresList.Contains(toDel))
                     {
-TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
-                    canvasFigures.Children.Remove(obj);
-                    figuresList.Add(rf);
+                        TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
+                        canvasFigures.Children.Remove(obj);
+                        figuresList.Add(rf);
                     }
-                    
+
                 }
 
             }
@@ -210,14 +209,30 @@ TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
+            string obr = String.Empty;
+            XmlSerializer formatter = new XmlSerializer(typeof (string));
+            // получаем поток, куда будем записывать сериализованный объект
+            using (FileStream fs = new FileStream("persons.xml", FileMode.OpenOrCreate))
+            {
+             obr =   (string) formatter.Deserialize(fs);
+
+                MessageBox.Show("Объект сериализован");
+                MessageBox.Show(obr.ToString());
+            }
         }
 
         // serialization testcase
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
-            object rf = new object();
-            rf += "sdf";
+            string rf;
+            rf = "sdf";
             // передаем в конструктор тип класса
+            XMLSerialization(rf);
+
+        }
+
+        private static void XMLSerialization(object rf)
+        {
             XmlSerializer formatter = new XmlSerializer(rf.GetType());
 
             // получаем поток, куда будем записывать сериализованный объект
@@ -225,10 +240,8 @@ TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
             {
                 formatter.Serialize(fs, rf);
 
-               MessageBox.Show("Объект сериализован");
+                MessageBox.Show("Объект сериализован");
             }
-
-
         }
     }
 }
