@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TreeView  Background="LightCyan" Margin="0,89,630,0" RenderTransformOrigin="-1.376,0.507" HorizontalAlignment="Right" Width="152" Height="320" VerticalAlignment="Top">
+        <TreeView  Background="LightCyan" Margin="10,89,0,10"  HorizontalAlignment="Left" Width="132">
 
             <TreeViewItem x:Name="FiguresTreeView" Header="Figures" IsExpanded="True">
                 <TreeViewItem x:Name="RectTree" Header="Rectangles" />
@@ -16,16 +16,16 @@
 
             </TreeViewItem>
         </TreeView>
-        <StackPanel  x:Name="ButtonsPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="57" Margin="180,19,5,0"  Width="607">
-            <ToggleButton Content="Stop/Play" Width="75" Margin="10,10" Click="Button_Click"/>
-            <Button Content="Rect btn" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="100,10,10,10"  Width="101" Click="CreateRectangleShape" Height="35"/>
-            <Button Content="Triangle btn" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="101" Click="CreateTriangleShape" Height="35"/>
-            <Button Content="Circ btn" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="101" Click="CreateCircleShape" Height="35"/>
+        <StackPanel  x:Name="ButtonsPanel" Orientation="Horizontal" Margin="185,10,0,0" Height="57" VerticalAlignment="Top" ClipToBounds="True" HorizontalAlignment="Stretch" Width="607">
+            <ToggleButton Content="Stop/Play" Width="101" Margin="10" Click="Button_Click" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button Content="Rect btn" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"   Width="101" Click="CreateRectangleShape" Height="35"/>
+            <Button Content="Triangle btn" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"  Width="101" Click="CreateTriangleShape" Height="35"/>
+            <Button Content="Circ btn" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"  Width="101" Click="CreateCircleShape" Height="35"/>
 
         </StackPanel>
 
         <Canvas x:Name="canvasFigures" Background="LightGray" Cursor="Hand" MouseLeftButtonDown="CanvasArea_MouseLeftButtonDown" Margin="180,89,0,0"/>
-        <Menu HorizontalAlignment="Right" Height="46" Margin="0,0,630,363" VerticalAlignment="Bottom" Width="152">
+        <Menu Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <MenuItem Header="File">
 
                 <MenuItem Header="Save" Click="MenuSave_Click"></MenuItem>
