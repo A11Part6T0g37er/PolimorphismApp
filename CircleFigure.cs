@@ -16,7 +16,7 @@ namespace PolimorphismApp
             this.ellipse = new Ellipse() { Height = 40, Width = 40 };
             this.ellipse.Stroke = this.InitBrush();
             this.ellipse.StrokeThickness = 2;
-            this.ellipse.Name = "Circle";
+           
             this.ellipse.Fill = this.InitBrush();
             this.ellipse.Fill.Opacity = 0.0;
             this.ellipse.Fill.Freeze();
@@ -25,7 +25,7 @@ namespace PolimorphismApp
 
             this.shapeNode = new TreeViewItem
             {
-                Header = this.ellipse.Name + " " + Indexer,
+                Header = "Circle" + " " + Indexer,
             };
                 this.X = this.rd.Next(0, (int)this.PMax.X);
                 this.Y = this.rd.Next(0, (int)this.PMax.Y);

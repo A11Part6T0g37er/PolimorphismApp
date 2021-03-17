@@ -6,14 +6,12 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Xml.Serialization;
 
 namespace PolimorphismApp
 {
@@ -35,7 +33,6 @@ namespace PolimorphismApp
         public MainWindow()
         {
             this.InitializeComponent();
-
 
             timer.Tick += this.Timer_Tick;
             timer.Start();
@@ -59,16 +56,9 @@ namespace PolimorphismApp
 
         }
 
-
         private void CanvasArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             IInputElement clickedElement = Mouse.DirectlyOver;
-
-
-
-
-
-
 
             if (clickedElement is Rectangle)
             {
@@ -77,12 +67,9 @@ namespace PolimorphismApp
 
                 Rectangle some = (Rectangle)canvasFigures.Children[i];
 
-
                 int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
                 int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
                 var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
-
-
 
                 if (StopClicked)
                     figuresList.Remove(toDel);
@@ -105,12 +92,9 @@ namespace PolimorphismApp
 
                 Ellipse some = (Ellipse)canvasFigures.Children[i];
 
-
                 int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
                 int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
                 var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
-
-
 
                 if (StopClicked)
                     figuresList.Remove(toDel);
@@ -133,12 +117,9 @@ namespace PolimorphismApp
 
                 Polygon some = (Polygon)canvasFigures.Children[i];
 
-
                 int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
                 int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
                 var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
-
-
 
                 if (StopClicked)
                     figuresList.Remove(toDel);
@@ -154,7 +135,6 @@ namespace PolimorphismApp
                 }
 
             }
-
 
         }
 
@@ -213,121 +193,75 @@ namespace PolimorphismApp
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog Fd = new OpenFileDialog();
+            // Dialog window openFile
+            OpenFileDialog Fd = new OpenFileDialog() { DefaultExt = "xaml", InitialDirectory = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug" };
             Fd.ShowDialog();
             string LoadedFileName = Fd.FileName;
 
-            string path = "Figa.binnary";
+            FileStream Fs = new FileStream(@LoadedFileName, FileMode.Open);
+            Canvas newCanvas = new Canvas();
 
-            List<AbstractFigure> listnewAbstract = new List<AbstractFigure>();
+            newCanvas = System.Windows.Markup.XamlReader.Load(Fs) as Canvas;
 
+            Fs.Close();
 
-            
-           
-            //bINNARYDeSerialization(listnewAbstract);
-
-            canvasFigures.Children.Clear();
-
+            // make canvas and tree clean from any objects it`s currently has in order to restore previous state
             figuresList.Clear();
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fs = new FileStream(path, FileMode.Open);
-            object result = null;
-            using (fs)
+            canvasFigures.Children.Clear();
+            FiguresTreeView.Items.Clear();
+
+            for (int i = 0; i < newCanvas.Children.Count; i++)
             {
-
-             result =   bf.Deserialize(fs);
-            }
-            UIElementCollection s = new UIElementCollection(canvasFigures, canvasFigures);
-            s.Add((UIElement)XamlReader.Parse(result.ToString()) );
-
-            MessageBox.Show(s.ToString());
-
-        }
-
-        private static void bINNARYDeSerialization(List<AbstractFigure> listnewAbstract)
-        {
-            
-            BinaryFormatter bf = new BinaryFormatter();
-
-            FileStream fsin = new FileStream("Figures.bin", FileMode.Open, FileAccess.Read, FileShare.None);
-            try
-            {
-                using (fsin)
+                if (newCanvas.Children[i] is Rectangle)
                 {
-                    MessageBox.Show(fsin.ToString());
-                    MessageBox.Show(bf.Deserialize(fsin).ToString());
-                    //listnewAbstract.Add((AbstractFigure)bf.Deserialize(fsin));
-
-                    MessageBox.Show("Object Deserialized");
-
-
+                    figuresList.Add(new RectangleFigure(pMax) /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/);
+                }
+                if (newCanvas.Children[i] is Ellipse)
+                {
+                    figuresList.Add(new CircleFigure(pMax) /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/);
+                }
+                if (newCanvas.Children[i] is Polygon)
+                {
+                    figuresList.Add(new TriangleFigure(pMax) /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/);
                 }
             }
-            catch
-            {
-                MessageBox.Show("An error has occured");
-            }
 
-           
+            //string path = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug\Figa.xaml";
+            //string defaultNamespace = "PolimorphismApp";
+            //string folderName = "Debug";
+            //string fileName = "Figa.xaml";
+            //string path1 = String.Format("{0}.bin.{1}.{2}", defaultNamespace, folderName, fileName);
+
+            //object result =   bINNARYDeSerialization(listnewAbstract, path);
+
+            //UIElementCollection s = new UIElementCollection(canvasFigures, canvasFigures);
+            //s.Add((UIElement)XamlReader.Parse(result.ToString()));
+
+            //StringReader stringReader = new StringReader("Test string");
+            //XmlReader xmlReader = XmlReader.Create(stringReader);
+            //var AAA = XamlReader.Load(xmlReader);
+            //MessageBox.Show(s.ToString());
 
         }
 
         // serialization testcase
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
-
-            WorkingCanvasSave("Figa.binnary");
-
-            RectangleFigure rf = new RectangleFigure(pMax);
-            Rectangle rect = new Rectangle() { Height = 40, Width = 40 };
-            rect.Fill = rf.rect.Fill;
-            
             string path = "Figures.bin";
 
-            BinaryFormatter bf = new BinaryFormatter();
-
-            FileStream fsout = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
-            try
-            {
-                using (fsout)
-                {
-                    bf.Serialize(fsout, rect);
-                    MessageBox.Show("Object Serialized");
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("An error has occured " + ex.Message);
-            }
-            //WorkingCanvasSave(path);
+            WorkingCanvasSave("Figa.xaml");
 
         }
 
         private void WorkingCanvasSave(string path)
         {
-            string mystrXAML = XamlWriter.Save(canvasFigures.Children);
-           
-            FileStream streamwriter = new FileStream(path, FileMode.Create , FileAccess.Write);
 
-            BinaryFormatter bf = new BinaryFormatter();
-           using(streamwriter)
-            bf.Serialize(streamwriter,mystrXAML);
+            FileStream streamwriter = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-           
-            
+            using (streamwriter)
+                XamlWriter.Save(canvasFigures, streamwriter);
+
         }
 
-        private static void XMLSerialization(RectangleFigure rf)
-        {
-            XmlSerializer formatter = new XmlSerializer(rf.GetType());
-
-            // получаем поток, куда будем записывать сериализованный объект
-            using (FileStream fs = new FileStream("Figures.xml", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, rf);
-
-                MessageBox.Show("Объект сериализован");
-            }
-        }
     }
 }

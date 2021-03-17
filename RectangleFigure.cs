@@ -31,12 +31,12 @@ namespace PolimorphismApp
             this.PMax = pMax;
             Indexer++;
 
-            this.rect.Name = "Square";
+           
 
                 this.X = this.rd.Next(10, (int)this.PMax.X);
                 this.Y = this.rd.Next(10, (int)this.PMax.Y);
             this.shapeNode = new TreeViewItem();
-            this.shapeNode.Header = this.rect.Name + " " + Indexer;
+            this.shapeNode.Header = "Square" + " " + Indexer;
        ShapeForm = this.rect;
         }
 
