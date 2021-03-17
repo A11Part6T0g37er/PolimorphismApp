@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,12 +34,12 @@ namespace PolimorphismApp
         public MainWindow()
         {
             this.InitializeComponent();
+            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
 
-            timer.Tick += this.Timer_Tick;
-            timer.Start();
+            //timer.Tick += this.Timer_Tick;
+            //timer.Start();
 
             // used by all shapes
-            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -49,8 +50,8 @@ namespace PolimorphismApp
             {
                 if (figure != null)
                 {
-                    figure.Move(this.pMax);
                     figure.Draw(this.canvasFigures);
+                    figure.Move(this.pMax);
                 }
             }
 
@@ -191,6 +192,7 @@ namespace PolimorphismApp
         // разберитесь как решить эту проблему.
         // по опену можно прочитать любой из форматов .bin .json .xml и восстановить все фигуры
 
+
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
             // Dialog window openFile
@@ -210,19 +212,28 @@ namespace PolimorphismApp
             canvasFigures.Children.Clear();
             FiguresTreeView.Items.Clear();
 
+
+
             for (int i = 0; i < newCanvas.Children.Count; i++)
             {
                 if (newCanvas.Children[i] is Rectangle)
                 {
-                    figuresList.Add(new RectangleFigure(pMax) /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/);
+
+                    RectangleFigure rf = new RectangleFigure(pMax) { X = i + 1 * 30, Y = i + 1 * 50 }; /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/
+
+                    figuresList.Add(rf);
                 }
                 if (newCanvas.Children[i] is Ellipse)
                 {
-                    figuresList.Add(new CircleFigure(pMax) /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/);
+                    CircleFigure cf = new CircleFigure(pMax) { X = i + 1 * 40, Y = i + 1 * 60 };
+
+                    figuresList.Add(cf); /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/
                 }
                 if (newCanvas.Children[i] is Polygon)
                 {
-                    figuresList.Add(new TriangleFigure(pMax) /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/);
+                    TriangleFigure tf = new TriangleFigure(pMax) { X = i + 1 * 70, Y = i + 1 * 80 };
+
+                    figuresList.Add(tf); /*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*/
                 }
             }
 

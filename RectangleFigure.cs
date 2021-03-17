@@ -5,7 +5,6 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Shapes;
 
 namespace PolimorphismApp
@@ -13,11 +12,11 @@ namespace PolimorphismApp
     [Serializable]
     public class RectangleFigure : AbstractFigure
     {
-        
-        public Rectangle rect { get;  set; }
-       
-        public static int Indexer = 0;
 
+        public Rectangle rect { get; set; }
+
+        public static int Indexer = 0;
+      
         public RectangleFigure() { }
         public RectangleFigure(Point pMax)
         {
@@ -31,13 +30,13 @@ namespace PolimorphismApp
             this.PMax = pMax;
             Indexer++;
 
-           
 
-                this.X = this.rd.Next(10, (int)this.PMax.X);
-                this.Y = this.rd.Next(10, (int)this.PMax.Y);
+
+            this.X = this.rd.Next(10, (int)this.PMax.X);
+            this.Y = this.rd.Next(10, (int)this.PMax.Y);
             this.shapeNode = new TreeViewItem();
             this.shapeNode.Header = "Square" + " " + Indexer;
-       ShapeForm = this.rect;
+            ShapeForm = this.rect;
         }
 
         public override void Move(Point pMax)
@@ -55,7 +54,7 @@ namespace PolimorphismApp
 
         public override void Draw(Canvas canvasFigures)
         {
-           
+
 
             if (!canvasFigures.Children.Contains(this.rect))
             {

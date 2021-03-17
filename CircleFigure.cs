@@ -2,6 +2,7 @@
 // Copyright (c) IndieWare Ink.. All rights reserved.
 // </copyright>
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
@@ -33,7 +34,7 @@ namespace PolimorphismApp
         }
 
         private static int Indexer = 0;
-
+       
         // private Point pMax;
         public Ellipse ellipse { get; private set; }
 
