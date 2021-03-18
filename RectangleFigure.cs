@@ -15,7 +15,7 @@ namespace PolimorphismApp
 
         [NonSerialized]
         public Rectangle rect /*= new Rectangle() { Height = 40, Width = 40 }*/;
-        [NonSerialized] public TreeViewItem shapeNode;
+        
         public static int Indexer = 0;
 
         public RectangleFigure() { }
@@ -35,9 +35,8 @@ namespace PolimorphismApp
 
             this.X = this.rd.Next(10, (int)this.PMax.X);
             this.Y = this.rd.Next(10, (int)this.PMax.Y);
-            this.shapeNode = new TreeViewItem();
-            this.shapeNode.Header = "Square" + " " + Indexer;
-            ShapeForm = this.rect;
+            this.shapeNode =  "Square" + " " + Indexer;
+            shapeForm = ShapeForm.Rectangle;
         }
 
         public override void Move(Point pMax)

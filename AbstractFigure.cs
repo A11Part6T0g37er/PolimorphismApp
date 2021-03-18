@@ -6,12 +6,11 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
     [Serializable]
-    public abstract class AbstractFigure
+    public class AbstractFigure
     {
         /// <summary>
         /// Simple wrapper for objects derived from Shape;
@@ -26,16 +25,16 @@ namespace PolimorphismApp
 
         public Point PMax { get; set; }
 
-       [NonSerialized] public TreeViewItem shapeNode;
+        public string shapeNode;
 
-        [NonSerialized] public Shape ShapeForm;/*{ get; set; }*/
-        public virtual Shape GetShape()
+        public ShapeForm shapeForm;/*{ get; set; }*/
+        public virtual ShapeForm GetShape()
         {
-            return ShapeForm;
+            return shapeForm;
         }
-        public abstract void Draw(Canvas canvas);
+        public virtual void Draw(Canvas canvas) { }
 
-        public abstract void Move(Point pMax);
+        public virtual void Move(Point pMax) { }
 
         protected Random rd = new Random();
 
@@ -50,20 +49,29 @@ namespace PolimorphismApp
         }
         protected void BounceTheBorder(Point pMax)
         {
-            if (this.X <= 0 || this.X >= pMax.X)
+            if (X <= 0 || X >= pMax.X)
             {
-                this.Dx = -this.Dx;
+                Dx = -Dx;
             }
 
-            if (this.Y <= 0 || this.Y >= pMax.Y)
+            if (Y <= 0 || Y >= pMax.Y)
             {
-                this.Dy = -this.Dy;
+                Dy = -Dy;
             }
 
-            this.X += this.Dx;
-            this.Y += this.Dy;
+            X += Dx;
+            Y += Dy;
 
         }
 
+        internal void Serialize(ElementPropertyBag epb)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public enum ShapeForm
+    {
+        Rectangle, Triangle, Ellipse
     }
 }

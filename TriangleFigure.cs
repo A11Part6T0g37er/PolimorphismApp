@@ -2,6 +2,7 @@
 // Copyright (c) IndieWare Ink.. All rights reserved.
 // </copyright>
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,11 +10,13 @@ using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
+    [Serializable]
     internal class TriangleFigure : AbstractFigure
     {
 
         private static int Indexer = 0;
-        public Polygon polygon { get; private set; }
+        [NonSerialized]
+        public Polygon polygon; 
         public TriangleFigure() { }
 
         public TriangleFigure(Point pmax)
@@ -28,11 +31,10 @@ namespace PolimorphismApp
 
             Indexer++;
 
-            this.shapeNode = new TreeViewItem();
-            this.shapeNode.Header = "Triangle" + " " + Indexer;
+            this.shapeNode = "Triangle" + " " + Indexer;
             this.X = this.rd.Next(10, (int)this.PMax.X);
             this.Y = this.rd.Next(10, (int)this.PMax.Y);
-            ShapeForm = this.polygon;
+            shapeForm = ShapeForm.Triangle;
         }
 
         private void InitializeShape()

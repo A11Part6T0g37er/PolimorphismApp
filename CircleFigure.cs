@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 
 namespace PolimorphismApp
 {
+    [Serializable]
     internal class CircleFigure : AbstractFigure
     {
         public CircleFigure(Point pMax)
@@ -24,19 +25,16 @@ namespace PolimorphismApp
             this.ellipse.Stroke.Freeze();
             Indexer++;
 
-            this.shapeNode = new TreeViewItem
-            {
-                Header = "Circle" + " " + Indexer,
-            };
+            this.shapeNode =  "Circle" + " " + Indexer;
                 this.X = this.rd.Next(0, (int)this.PMax.X);
                 this.Y = this.rd.Next(0, (int)this.PMax.Y);
-            ShapeForm = this.ellipse;
+            shapeForm = ShapeForm.Ellipse;
         }
 
         private static int Indexer = 0;
-       
-        // private Point pMax;
-        public Ellipse ellipse { get; private set; }
+
+        [NonSerialized]
+        public Ellipse ellipse;
 
         public override void Move(Point pMax)
         {

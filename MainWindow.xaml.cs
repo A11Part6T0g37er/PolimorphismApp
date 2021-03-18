@@ -2,14 +2,12 @@
 // Copyright (c) IndieWare Ink.. All rights reserved.
 // </copyright>
 
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Shapes;
@@ -35,25 +33,25 @@ namespace PolimorphismApp
 
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             // used by all shapes
-            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
+            pMax = new Point(canvasFigures.ActualWidth - 30, canvasFigures.ActualHeight - 30);
 
-            timer.Tick += this.Timer_Tick;
+            timer.Tick += Timer_Tick;
             timer.Start();
 
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
+            pMax = new Point(canvasFigures.ActualWidth - 30, canvasFigures.ActualHeight - 30);
 
-            foreach (var figure in this.figuresList)
+            foreach (var figure in figuresList)
             {
                 if (figure != null)
                 {
-                    figure.Draw(this.canvasFigures);
-                    figure.Move(this.pMax);
+                    figure.Draw(canvasFigures);
+                    figure.Move(pMax);
                 }
             }
 
@@ -144,31 +142,31 @@ namespace PolimorphismApp
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
 
-            RectangleFigure rectangle = new RectangleFigure(this.pMax);
+            RectangleFigure rectangle = new RectangleFigure(pMax);
 
-            this.RectTree.Items.Add(rectangle.shapeNode);
+            RectTree.Items.Add(rectangle.shapeNode);
 
-            this.figuresList.Add(rectangle);
+            figuresList.Add(rectangle);
 
         }
 
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
 
-            TriangleFigure triangleFigure = new TriangleFigure(this.pMax);
+            TriangleFigure triangleFigure = new TriangleFigure(pMax);
 
-            this.TrianglesTree.Items.Add(triangleFigure.shapeNode);
+            TrianglesTree.Items.Add(triangleFigure.shapeNode);
 
-            this.figuresList.Add(triangleFigure);
+            figuresList.Add(triangleFigure);
         }
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
         {
 
-            CircleFigure circle = new CircleFigure(this.pMax);
+            CircleFigure circle = new CircleFigure(pMax);
 
-            this.CirclesTree.Items.Add(circle.shapeNode);
-            this.figuresList.Add(circle);
+            CirclesTree.Items.Add(circle.shapeNode);
+            figuresList.Add(circle);
 
         }
 
@@ -202,60 +200,60 @@ namespace PolimorphismApp
             //Fd.ShowDialog();
             //string LoadedFileName = Fd.FileName;
 
-         /*   FileStream Fs = new FileStream(@LoadedFileName, FileMode.Open);
-            Canvas newCanvas = new Canvas();
+            /*   FileStream Fs = new FileStream(@LoadedFileName, FileMode.Open);
+               Canvas newCanvas = new Canvas();
 
-            newCanvas = System.Windows.Markup.XamlReader.Load(Fs) as Canvas;
+               newCanvas = System.Windows.Markup.XamlReader.Load(Fs) as Canvas;
 
-            Fs.Close();
+               Fs.Close();
+            //whole code underneath is valid and executable as mentioned
+               // make canvas and tree clean from any objects it`s currently has in order to restore previous state
+               figuresList.Clear();
+               canvasFigures.Children.Clear();
 
-            // make canvas and tree clean from any objects it`s currently has in order to restore previous state
-            figuresList.Clear();
-            canvasFigures.Children.Clear();
 
+               CirclesTree.Items.Clear();
+               RectTree.Items.Clear();
+               RectTree.Items.Clear();
 
-            CirclesTree.Items.Clear();
-            RectTree.Items.Clear();
-            RectTree.Items.Clear();
+               #region RepopulateFromCanvas
+               for (int i = 0; i < newCanvas.Children.Count; i++)
+               {
+                   if (newCanvas.Children[i] is Rectangle)
+                   {
 
-            #region RepopulateFromCanvas
-            for (int i = 0; i < newCanvas.Children.Count; i++)
-            {
-                if (newCanvas.Children[i] is Rectangle)
-                {
+                       RectangleFigure rf = new RectangleFigure(pMax) { X = i + 1 * 30, Y = i + 1 * 50 }; *//*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
 
-                    RectangleFigure rf = new RectangleFigure(pMax) { X = i + 1 * 30, Y = i + 1 * 50 }; *//*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
+                       figuresList.Add(rf);
+                   }
+                   if (newCanvas.Children[i] is Ellipse)
+                   {
+                       CircleFigure cf = new CircleFigure(pMax) { X = i + 1 * 40, Y = i + 1 * 40 };
 
-                    figuresList.Add(rf);
-                }
-                if (newCanvas.Children[i] is Ellipse)
-                {
-                    CircleFigure cf = new CircleFigure(pMax) { X = i + 1 * 40, Y = i + 1 * 40 };
+                       figuresList.Add(cf); *//*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
+                   }
+                   if (newCanvas.Children[i] is Polygon)
+                   {
+                       TriangleFigure tf = new TriangleFigure(pMax) { X = i + 1 * 70, Y = i + 1 * 80 };
 
-                    figuresList.Add(cf); *//*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
-                }
-                if (newCanvas.Children[i] is Polygon)
-                {
-                    TriangleFigure tf = new TriangleFigure(pMax) { X = i + 1 * 70, Y = i + 1 * 80 };
+                       figuresList.Add(tf); *//*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
+                   }
+               } 
+               #endregion
+               #region TreeViewPopulate
+               foreach (var item in figuresList)
+               {
+                   if (item is RectangleFigure)
+                       RectTree.Items.Add(item.shapeNode);
+                   if (item is CircleFigure)
+                       CirclesTree.Items.Add(item.shapeNode);
+                   if (item is TriangleFigure)
+                       TrianglesTree.Items.Add(item.shapeNode);
+               }
+               #endregion
+   */
 
-                    figuresList.Add(tf); *//*{ X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
-                }
-            } 
-            #endregion
-            #region TreeViewPopulate
-            foreach (var item in figuresList)
-            {
-                if (item is RectangleFigure)
-                    RectTree.Items.Add(item.shapeNode);
-                if (item is CircleFigure)
-                    CirclesTree.Items.Add(item.shapeNode);
-                if (item is TriangleFigure)
-                    TrianglesTree.Items.Add(item.shapeNode);
-            }
-            #endregion
-*/
-
-            DeserialiseBinarry(  path: "Figures.bin");
+            DeserialiseBinarry(path: "Figures.bin");
             //string path = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug\Figa.xaml";
             //string defaultNamespace = "PolimorphismApp";
             //string folderName = "Debug";
@@ -274,25 +272,43 @@ namespace PolimorphismApp
 
         }
 
-        private void DeserialiseBinarry(string  path)
+        private void DeserialiseBinarry(string path)
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream streamwriter = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
             //RectangleFigure result = new RectangleFigure(pMax);
             List<AbstractFigure> intermadiate = null;
             if (File.Exists(path))
-            using (streamwriter)
+                using (streamwriter)
+                {
+                    intermadiate = bf.Deserialize(streamwriter) as List<AbstractFigure>;
+                }
+            intermadiate.ForEach(x =>
             {
-              intermadiate =   bf.Deserialize(streamwriter) as List<AbstractFigure>;
-            }
-            intermadiate.ForEach(x => { 
-             RectangleFigure fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y ,Dx = x.Dx,Dy = x.Dy};
-            figuresList.Add(fr);
-            
-            }  );
-           
-           /* result.X = intermadiate.X;
-            result.Y = intermadiate.Y;*/
+                RectangleFigure fr;
+                CircleFigure cf;
+                TriangleFigure tf;
+                if (x.shapeForm is ShapeForm.Rectangle)
+                { 
+                 fr= new RectangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                figuresList.Add(fr);
+                }
+                if (x.shapeForm is ShapeForm.Triangle)
+                {
+                    tf = new TriangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    figuresList.Add(tf);
+                }
+                if (x.shapeForm is ShapeForm.Ellipse)
+                {
+                    cf = new CircleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    figuresList.Add(cf);
+                }
+
+
+            });
+
+            /* result.X = intermadiate.X;
+             result.Y = intermadiate.Y;*/
             //MessageBox.Show(result.X.ToString());
         }
 
@@ -300,11 +316,13 @@ namespace PolimorphismApp
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
             string path = "Figures.bin";
-            RectangleFigure rf = (RectangleFigure)(AbstractFigure)(new RectangleFigure(pMax));
+            
 
             WorkingCanvasSave("Figa.xaml");
             //SerializeToXml<RectangleFigure>(rf, path);
-             
+
+          //string serialiazableStuff = SerializeNserializableStuff(path: path);
+
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream streamwriter = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
@@ -314,15 +332,33 @@ namespace PolimorphismApp
             }
         }
 
+        private string SerializeNserializableStuff(string path)
+        {
+            List<ElementPropertyBag> sps = new List<ElementPropertyBag>();
+            figuresList.ForEach(el =>
+            {
+                ElementPropertyBag epb = new ElementPropertyBag();
+                el.Serialize(epb);
+                sps.Add(epb);
+            });
+
+            XmlSerializer xs = new XmlSerializer(sps.GetType());
+            StringBuilder sb = new StringBuilder();
+            TextWriter tw = new StringWriter(sb);
+            xs.Serialize(tw, sps);
+
+            return sb.ToString();
+        }
+
         private void WorkingCanvasSave(string path)
         {
 
             FileStream streamwriter = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-            
+
             using (streamwriter)
             {
                 XamlWriter.Save(canvasFigures, streamwriter);
-                 
+
             }
 
         }
