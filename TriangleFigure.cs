@@ -7,15 +7,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace PolimorphismApp
 {
     [Serializable]
-    internal class TriangleFigure : AbstractFigure
+    public class TriangleFigure : AbstractFigure
     {
 
         private static int Indexer = 0;
         [NonSerialized]
+        [XmlIgnore]
         public Polygon polygon; 
         public TriangleFigure() { }
 

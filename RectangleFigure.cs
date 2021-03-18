@@ -6,6 +6,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace PolimorphismApp
 {
@@ -14,6 +15,7 @@ namespace PolimorphismApp
     {
 
         [NonSerialized]
+        [XmlIgnore]
         public Rectangle rect /*= new Rectangle() { Height = 40, Width = 40 }*/;
         
         public static int Indexer = 0;

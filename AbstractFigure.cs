@@ -6,10 +6,14 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace PolimorphismApp
 {
     [Serializable]
+    [XmlInclude(typeof(RectangleFigure))]
+    [XmlInclude(typeof(CircleFigure))]
+    [XmlInclude(typeof(TriangleFigure))]
     public class AbstractFigure
     {
         /// <summary>

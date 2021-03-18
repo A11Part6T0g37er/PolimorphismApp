@@ -6,12 +6,14 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace PolimorphismApp
 {
     [Serializable]
-    internal class CircleFigure : AbstractFigure
+    public class CircleFigure : AbstractFigure
     {
+        public CircleFigure() { }
         public CircleFigure(Point pMax)
         {
             this.PMax = pMax;
@@ -34,6 +36,7 @@ namespace PolimorphismApp
         private static int Indexer = 0;
 
         [NonSerialized]
+        [XmlIgnore]
         public Ellipse ellipse;
 
         public override void Move(Point pMax)
