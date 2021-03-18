@@ -68,10 +68,7 @@ namespace PolimorphismApp
 
         }
 
-        internal void Serialize(ElementPropertyBag epb)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
     public enum ShapeForm

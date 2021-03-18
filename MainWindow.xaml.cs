@@ -271,8 +271,51 @@ namespace PolimorphismApp
 
             #endregion
 
-            DeserialiseBinarry(path: "Figures.bin");
+
+            // works well, TODO: logic branching for different files
+            // DeserialiseBinarry(path: "Figures.bin");
+
+            DeserializeXML(path: "Figures.xml");
            
+        }
+
+        private void DeserializeXML(string path)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<AbstractFigure>));
+            FileStream streamwriter = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
+            List<AbstractFigure> intermadiate = null;
+            if (File.Exists(path))
+                using (streamwriter)
+                {
+                    intermadiate = serializer.Deserialize(streamwriter) as List<AbstractFigure>;
+                }
+
+            intermadiate.ForEach(x =>
+            {
+                RectangleFigure fr;
+                CircleFigure cf;
+                TriangleFigure tf;
+                if (x.shapeForm is ShapeForm.Rectangle)
+                {
+                    fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    figuresList.Add(fr);
+                    RectTree.Items.Add(new TreeViewItem() { Header = fr.shapeNode });
+                }
+                if (x.shapeForm is ShapeForm.Triangle)
+                {
+                    tf = new TriangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    figuresList.Add(tf);
+                    TrianglesTree.Items.Add(new TreeViewItem() { Header = tf.shapeNode });
+                }
+                if (x.shapeForm is ShapeForm.Ellipse)
+                {
+                    cf = new CircleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    figuresList.Add(cf);
+                    CirclesTree.Items.Add(new TreeViewItem() { Header = cf.shapeNode });
+                }
+
+
+            });
         }
 
         private void DeserialiseBinarry(string path)
@@ -323,7 +366,7 @@ namespace PolimorphismApp
 
             WorkingCanvasSave("Figa.xaml");
 
-            BinarySerialisation(path);
+            BinarySerialization(path);
 
             string pathXML = "Figures.xml";
            
@@ -332,7 +375,7 @@ namespace PolimorphismApp
             SerializeToXml(figuresList, xmlFilePath: pathXML);
         }
 
-        private void BinarySerialisation(string path)
+        private void BinarySerialization(string path)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream streamwriter = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
