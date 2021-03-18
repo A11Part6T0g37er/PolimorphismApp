@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
@@ -277,17 +278,22 @@ namespace PolimorphismApp
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream streamwriter = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
-            RectangleFigure result = new RectangleFigure(pMax);
+            //RectangleFigure result = new RectangleFigure(pMax);
             List<AbstractFigure> intermadiate = null;
             if (File.Exists(path))
             using (streamwriter)
             {
               intermadiate =   bf.Deserialize(streamwriter) as List<AbstractFigure>;
             }
+            intermadiate.ForEach(x => { 
+             RectangleFigure fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y ,Dx = x.Dx,Dy = x.Dy};
+            figuresList.Add(fr);
+            
+            }  );
+           
            /* result.X = intermadiate.X;
             result.Y = intermadiate.Y;*/
-            MessageBox.Show(result.X.ToString());
-            figuresList.AddRange(intermadiate);
+            //MessageBox.Show(result.X.ToString());
         }
 
         // serialization testcase

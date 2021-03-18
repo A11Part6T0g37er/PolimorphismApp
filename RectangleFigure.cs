@@ -14,10 +14,10 @@ namespace PolimorphismApp
     {
 
         [NonSerialized]
-        public Rectangle rect = new Rectangle() { Height = 40, Width = 40 };
+        public Rectangle rect /*= new Rectangle() { Height = 40, Width = 40 }*/;
         [NonSerialized] public TreeViewItem shapeNode;
         public static int Indexer = 0;
-      
+
         public RectangleFigure() { }
         public RectangleFigure(Point pMax)
         {
