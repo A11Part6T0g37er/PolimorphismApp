@@ -26,9 +26,9 @@ namespace PolimorphismApp
 
         public Point PMax { get; set; }
 
-        public TreeViewItem shapeNode;
+       [NonSerialized] public TreeViewItem shapeNode;
 
-        public Shape ShapeForm { get; set; }
+        [NonSerialized] public Shape ShapeForm;/*{ get; set; }*/
         public virtual Shape GetShape()
         {
             return ShapeForm;

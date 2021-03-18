@@ -13,8 +13,9 @@ namespace PolimorphismApp
     public class RectangleFigure : AbstractFigure
     {
 
-        public Rectangle rect { get; set; }
-
+        [NonSerialized]
+        public Rectangle rect = new Rectangle() { Height = 40, Width = 40 };
+        [NonSerialized] public TreeViewItem shapeNode;
         public static int Indexer = 0;
       
         public RectangleFigure() { }
