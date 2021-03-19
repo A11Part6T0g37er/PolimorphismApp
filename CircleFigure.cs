@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 
+
 namespace PolimorphismApp
 {
     [Serializable]
@@ -29,6 +30,7 @@ namespace PolimorphismApp
 
             this.shapeNode =  "Circle" + " " + Indexer;
                 this.X = this.rd.Next(0, (int)this.PMax.X);
+           
                 this.Y = this.rd.Next(0, (int)this.PMax.Y);
             shapeForm = ShapeForm.Ellipse;
         }

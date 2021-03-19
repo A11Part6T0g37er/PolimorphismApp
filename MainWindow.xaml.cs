@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Path = System.IO.Path;
+using System.Reflection;
 
 namespace PolimorphismApp
 {
@@ -202,7 +203,7 @@ namespace PolimorphismApp
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
             // Dialog window openFile
-            OpenFileDialog Fd = new OpenFileDialog() {  InitialDirectory = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug" };
+            OpenFileDialog Fd = new OpenFileDialog() {  InitialDirectory =Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) };
             Fd.Filter = "JSON files (*.json)|*.json|XML files (*.xml)|*.xml|Binary files (*.bin)|*.bin|All files (*.*)|*.*";
           
             Fd.ShowDialog();
@@ -381,7 +382,7 @@ namespace PolimorphismApp
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
             string path = "Figures.bin";
-            SaveFileDialog Fd = new SaveFileDialog() { InitialDirectory = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug" };
+            SaveFileDialog Fd = new SaveFileDialog() { InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) };
             Fd.Filter = "JSON files (*.json)|*.json|XML files (*.xml)|*.xml|Binary files (*.bin)|*.bin|All files (*.*)|*.*";
             Fd.ShowDialog();
             string SaveFileName = Fd.FileName ?? String.Empty;
