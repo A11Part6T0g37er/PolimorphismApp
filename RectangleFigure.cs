@@ -2,6 +2,7 @@
 // Copyright (c) IndieWare Ink.. All rights reserved.
 // </copyright>
 
+using RandomizerNetFramework;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,8 +36,8 @@ namespace PolimorphismApp
 
 
 
-            this.X = this.rd.Next(10, (int)this.PMax.X);
-            this.Y = this.rd.Next(10, (int)this.PMax.Y);
+            this.X = Randomizer.GetRandom((int)PMax.X);
+            this.Y = Randomizer.GetRandom((int)PMax.Y);
             this.shapeNode =  "Square" + " " + Indexer;
             shapeForm = ShapeForm.Rectangle;
         }

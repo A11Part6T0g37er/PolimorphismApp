@@ -40,7 +40,7 @@ namespace PolimorphismApp
 
         public virtual void Move(Point pMax) { }
 
-        protected Random rd = new Random();
+        //protected Random rd = new Random();
 
         protected RadialGradientBrush InitBrush()
         {

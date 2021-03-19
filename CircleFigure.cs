@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
-
+using RandomizerNetFramework;
 
 namespace PolimorphismApp
 {
@@ -29,9 +29,9 @@ namespace PolimorphismApp
             Indexer++;
 
             this.shapeNode =  "Circle" + " " + Indexer;
-                this.X = this.rd.Next(0, (int)this.PMax.X);
-           
-                this.Y = this.rd.Next(0, (int)this.PMax.Y);
+                //this.X = this.rd.Next(0, (int)this.PMax.X);
+            this.X = Randomizer.GetRandom((int)PMax.X);
+                this.Y = Randomizer.GetRandom((int)PMax.Y);
             shapeForm = ShapeForm.Ellipse;
         }
 
