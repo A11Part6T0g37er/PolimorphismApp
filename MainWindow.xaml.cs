@@ -202,24 +202,12 @@ namespace PolimorphismApp
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
             // Dialog window openFile
-            OpenFileDialog Fd = new OpenFileDialog() { DefaultExt = "xaml", InitialDirectory = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug" };
+            OpenFileDialog Fd = new OpenFileDialog() {  InitialDirectory = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug" };
             Fd.Filter = "JSON files (*.json)|*.json|XML files (*.xml)|*.xml|Binary files (*.bin)|*.bin|All files (*.*)|*.*";
           
             Fd.ShowDialog();
             string LoadedFileName = Fd.FileName ?? String.Empty;
 
-            // for canvas glory sake
-            /*Canvas newCanvas = new Canvas();
-
-            if (!LoadedFileName.Equals(String.Empty))
-            {
-                FileStream Fs = new FileStream(@LoadedFileName, FileMode.Open);
-
-                newCanvas = System.Windows.Markup.XamlReader.Load(Fs) as Canvas;
-
-                Fs.Close();
-
-            }*/
 
             if (!string.IsNullOrEmpty(LoadedFileName))
             {
@@ -253,6 +241,19 @@ namespace PolimorphismApp
             // almost completely workable canvas objects transfer by XAML generated file. Unknown issue with coordinates of shapes.
             // whole code underneath is valid and executable as mentioned
             #region Ancestor of accomplished binarry attemp
+
+            // for canvas glory sake
+            /*Canvas newCanvas = new Canvas();
+
+            if (!LoadedFileName.Equals(String.Empty))
+            {
+                FileStream Fs = new FileStream(@LoadedFileName, FileMode.Open);
+
+                newCanvas = System.Windows.Markup.XamlReader.Load(Fs) as Canvas;
+
+                Fs.Close();
+
+            }*/
 
             #region RepopulateFromCanvas
             /* for (int i = 0; i < newCanvas.Children.Count; i++)
@@ -358,32 +359,7 @@ namespace PolimorphismApp
                     intermadiate = serializer.Deserialize(streamwriter) as List<AbstractFigure>;
                 }
             InitializeListDeserialized(intermadiate);
-        /*    intermadiate.ForEach(x =>
-            {
-                RectangleFigure fr;
-                CircleFigure cf;
-                TriangleFigure tf;
-                if (x.shapeForm is ShapeForm.Rectangle)
-                {
-                    fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
-                    figuresList.Add(fr);
-                    RectTree.Items.Add(new TreeViewItem() { Header = fr.shapeNode });
-                }
-                if (x.shapeForm is ShapeForm.Triangle)
-                {
-                    tf = new TriangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
-                    figuresList.Add(tf);
-                    TrianglesTree.Items.Add(new TreeViewItem() { Header = tf.shapeNode });
-                }
-                if (x.shapeForm is ShapeForm.Ellipse)
-                {
-                    cf = new CircleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
-                    figuresList.Add(cf);
-                    CirclesTree.Items.Add(new TreeViewItem() { Header = cf.shapeNode });
-                }
-
-
-            });*/
+        
         }
         // workable function of Binary branch
         private void DeserialiseBinarry(string path)
@@ -398,49 +374,49 @@ namespace PolimorphismApp
                     intermadiate = bf.Deserialize(streamwriter) as List<AbstractFigure>;
                 }
             InitializeListDeserialized(intermadiate);
-/*            intermadiate.ForEach(x =>
-            {
-                RectangleFigure fr;
-                CircleFigure cf;
-                TriangleFigure tf;
-                if (x.shapeForm is ShapeForm.Rectangle)
-                {
-                    fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
-                    figuresList.Add(fr);
-                    RectTree.Items.Add(new TreeViewItem() { Header = fr.shapeNode });
-                }
-                if (x.shapeForm is ShapeForm.Triangle)
-                {
-                    tf = new TriangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
-                    figuresList.Add(tf);
-                    TrianglesTree.Items.Add(new TreeViewItem() { Header = tf.shapeNode });
-                }
-                if (x.shapeForm is ShapeForm.Ellipse)
-                {
-                    cf = new CircleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
-                    figuresList.Add(cf);
-                    CirclesTree.Items.Add(new TreeViewItem() { Header = cf.shapeNode });
-                }
 
-
-            });*/
         }
 
         // serialization testcase
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
             string path = "Figures.bin";
+            SaveFileDialog Fd = new SaveFileDialog() { InitialDirectory = @"C:\Users\dct\source\repos\PolimorphismApp\bin\Debug" };
+            Fd.Filter = "JSON files (*.json)|*.json|XML files (*.xml)|*.xml|Binary files (*.bin)|*.bin|All files (*.*)|*.*";
+            Fd.ShowDialog();
+            string SaveFileName = Fd.FileName ?? String.Empty;
 
 
-            WorkingCanvasSave("Figa.xaml");
+            if (!string.IsNullOrEmpty(SaveFileName))
+            {
+                string ext = Path.GetExtension(SaveFileName);
 
-            BinarySerialization(path);
+                switch (ext)
+                {
 
-            string pathXML = "Figures.xml";
-            string pathJSON = "Figures.json";
 
-            JSONSerialization(pathJSON);
-            SerializeToXml(figuresList, xmlFilePath: pathXML);
+             case    ".json":
+                JSONSerialization(SaveFileName);
+                       
+                        break;
+                    case ".xml":
+                SerializeToXml(figuresList, xmlFilePath: SaveFileName);
+
+                        break;
+                    case ".bin":
+
+                BinarySerialization(SaveFileName);
+                        break;
+
+                }
+               
+                // In the times saving everything from Canva. For memory only
+                // WorkingCanvasSave("Figa.xaml");
+
+
+                
+
+            }
         }
 
         private void JSONSerialization(string pathJSON)
