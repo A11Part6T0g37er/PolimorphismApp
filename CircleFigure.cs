@@ -21,7 +21,7 @@ namespace PolimorphismApp
             this.ellipse = new Ellipse() { Height = 40, Width = 40 };
             this.ellipse.Stroke = this.InitBrush();
             this.ellipse.StrokeThickness = 2;
-           
+
             this.ellipse.Fill = this.InitBrush();
             this.ellipse.Fill.Opacity = 0.0;
             this.ellipse.Fill.Freeze();

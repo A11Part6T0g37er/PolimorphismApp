@@ -18,7 +18,7 @@ namespace PolimorphismApp
         [NonSerialized]
         [XmlIgnore]
         public Rectangle rect /*= new Rectangle() { Height = 40, Width = 40 }*/;
-        
+
         public static int Indexer = 0;
 
         public RectangleFigure() { }

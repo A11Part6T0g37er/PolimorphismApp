@@ -485,8 +485,8 @@ namespace PolimorphismApp
         private void Button_RemoveEvent(object sender, RoutedEventArgs e)
         {
             AbstractFigure ab = figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString());
-            
-            
+
+
 
         }
 

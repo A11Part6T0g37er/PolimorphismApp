@@ -10,7 +10,7 @@ namespace PolimorphismApp
 	// should be sent to receivers of the event notification
 	class NewCollisionEventArgs
     {
-		
+
 		private readonly int X, Y;
 		public NewCollisionEventArgs(int X, int Y)
 		{
@@ -19,6 +19,6 @@ namespace PolimorphismApp
 		}
 		public int X_Collision { get { return this.X; } }
 		public int Y_Collision { get { return this.Y; } }
-		
+
 	}
 }

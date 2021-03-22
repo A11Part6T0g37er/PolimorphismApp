@@ -13,7 +13,7 @@ namespace PolimorphismApp
         public event EventHandler<NewCollisionEventArgs> NewCollision;
 
         // Step #3: Define a method responsible for raising the event
-        // to notify registered objects that the event has occurred       
+        // to notify registered objects that the event has occurred
         protected virtual void OnNewCollision(NewCollisionEventArgs e)
         {
             EventHandler<NewCollisionEventArgs> temp = Volatile.Read(ref NewCollision);

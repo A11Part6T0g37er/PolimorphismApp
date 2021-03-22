@@ -19,7 +19,7 @@ namespace PolimorphismApp
         private static int Indexer = 0;
         [NonSerialized]
         [XmlIgnore]
-        public Polygon polygon; 
+        public Polygon polygon;
         public TriangleFigure() { }
 
         public TriangleFigure(Point pmax)
