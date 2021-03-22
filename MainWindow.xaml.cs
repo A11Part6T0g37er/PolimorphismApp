@@ -3,12 +3,12 @@
 // </copyright>
 
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,9 +16,7 @@ using System.Windows.Markup;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 using Path = System.IO.Path;
-using System.Reflection;
 
 namespace PolimorphismApp
 {
@@ -76,7 +74,7 @@ namespace PolimorphismApp
 
                 int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
                 int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
-                
+
                 var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
 
                 if (StopClicked)
@@ -191,43 +189,52 @@ namespace PolimorphismApp
         }
 
         // TODO:
-        // сделайте меню file в которое добавьте 2 подменю save open
-        // при саве сохраняйте все добавленые фигуры в файл в формате .bin
-        // используйте стандартную сериализацию с помощью атрибута serializable.
-        // потом добавьте формат xml и формат json .
-        // с форматом xml могут быть проблемы потому что не все объекты нормально сериализуются.
-        // разберитесь как решить эту проблему.
-        // по опену можно прочитать любой из форматов .bin .json .xml и восстановить все фигуры
+        // Нужно разработать собственное событие в 4 этапа по Рихтеру.
+        // Событие должно срабатывать когда 2 фигуры одного типа (круг с кругом , прямоугольник с прямоугольником, треугольник с треугольником ) пересекаются.
+        // Если пересечение с фигурой другого типа то ничего не происходит.
+        // В контексте в наследнике евентаргс передавайте координату пересечения. Дальше на это событие нужно динамически вешать функцию
+
+        //Давайте на экран добавим две кнопки + и -
+        //Если вы выбираете в списке слева какую-то фигуру
+        //И нажимаете кнопку + То на событие разработанное вами в этой фигуре вешается функция
+
+        //Если вы нажимаете несколько раз то таких приклеиваний к событию будет несколько
+        //Точно также у определённой фигуры можно и отнять вызов функции
+        //Функцию которую будем вешать пусть будет простой
+
+        //Например просто вызов звука beep
+        //И вывод координату столкновения на консоль
 
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
+            
             // Dialog window openFile
-            OpenFileDialog Fd = new OpenFileDialog() {  InitialDirectory =Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) };
+            OpenFileDialog Fd = new OpenFileDialog() { InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) };
             Fd.Filter = "JSON files (*.json)|*.json|XML files (*.xml)|*.xml|Binary files (*.bin)|*.bin|All files (*.*)|*.*";
-          
+
             Fd.ShowDialog();
             string LoadedFileName = Fd.FileName ?? String.Empty;
 
 
             if (!string.IsNullOrEmpty(LoadedFileName))
             {
-               string ext =  Path.GetExtension(LoadedFileName);
-           
+                string ext = Path.GetExtension(LoadedFileName);
+
                 // make canvas and tree clean from any objects it`s currently has in order to restore previous state
-            figuresList.Clear();
-            canvasFigures.Children.Clear();
+                figuresList.Clear();
+                canvasFigures.Children.Clear();
 
 
-            CirclesTree.Items.Clear();
-            RectTree.Items.Clear();
-            TrianglesTree.Items.Clear();
+                CirclesTree.Items.Clear();
+                RectTree.Items.Clear();
+                TrianglesTree.Items.Clear();
 
                 switch (ext)
                 {
                     case ".json":
-            JSONDeserializing(pathJSON: LoadedFileName);
-                           
+                        JSONDeserializing(pathJSON: LoadedFileName);
+
                         break;
                     case ".xml":
                         DeserializeXML(path: LoadedFileName);
@@ -239,71 +246,71 @@ namespace PolimorphismApp
                 }
 
 
-            // almost completely workable canvas objects transfer by XAML generated file. Unknown issue with coordinates of shapes.
-            // whole code underneath is valid and executable as mentioned
-            #region Ancestor of accomplished binarry attemp
+                // almost completely workable canvas objects transfer by XAML generated file. Unknown issue with coordinates of shapes.
+                // whole code underneath is valid and executable as mentioned
+                #region Ancestor of accomplished binarry attemp
 
-            // for canvas glory sake
-            /*Canvas newCanvas = new Canvas();
+                // for canvas glory sake
+                /*Canvas newCanvas = new Canvas();
 
-            if (!LoadedFileName.Equals(String.Empty))
-            {
-                FileStream Fs = new FileStream(@LoadedFileName, FileMode.Open);
+                if (!LoadedFileName.Equals(String.Empty))
+                {
+                    FileStream Fs = new FileStream(@LoadedFileName, FileMode.Open);
 
-                newCanvas = System.Windows.Markup.XamlReader.Load(Fs) as Canvas;
+                    newCanvas = System.Windows.Markup.XamlReader.Load(Fs) as Canvas;
 
-                Fs.Close();
+                    Fs.Close();
 
-            }*/
+                }*/
 
-            #region RepopulateFromCanvas
-            /* for (int i = 0; i < newCanvas.Children.Count; i++)
-             {
-                 if (newCanvas.Children[i] is Rectangle)
+                #region RepopulateFromCanvas
+                /* for (int i = 0; i < newCanvas.Children.Count; i++)
                  {
+                     if (newCanvas.Children[i] is Rectangle)
+                     {
 
-                     RectangleFigure rf = new RectangleFigure(pMax) { X = i + 1 * 30, Y = i + 1 * 50 };
-                     *//* { X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
+                         RectangleFigure rf = new RectangleFigure(pMax) { X = i + 1 * 30, Y = i + 1 * 50 };
+                         *//* { X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
 
-                     figuresList.Add(rf);
+                         figuresList.Add(rf);
+                     }
+                     if (newCanvas.Children[i] is Ellipse)
+                     {
+                         CircleFigure cf = new CircleFigure(pMax) { X = i + 1 * 40, Y = i + 1 * 40 };
+
+                         figuresList.Add(cf);
+                         *//* { X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
+                     }
+                     if (newCanvas.Children[i] is Polygon)
+                     {
+                         TriangleFigure tf = new TriangleFigure(pMax) { X = i + 1 * 70, Y = i + 1 * 80 };
+
+                         figuresList.Add(tf);
+                         *//* { X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
+                     }
                  }
-                 if (newCanvas.Children[i] is Ellipse)
+                 #endregion
+
+                 #region TreeViewPopulate
+                 foreach (var item in figuresList)
                  {
-                     CircleFigure cf = new CircleFigure(pMax) { X = i + 1 * 40, Y = i + 1 * 40 };
-
-                     figuresList.Add(cf);
-                     *//* { X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
+                     if (item is RectangleFigure)
+                         RectTree.Items.Add(item.shapeNode);
+                     if (item is CircleFigure)
+                         CirclesTree.Items.Add(item.shapeNode);
+                     if (item is TriangleFigure)
+                         TrianglesTree.Items.Add(item.shapeNode);
                  }
-                 if (newCanvas.Children[i] is Polygon)
-                 {
-                     TriangleFigure tf = new TriangleFigure(pMax) { X = i + 1 * 70, Y = i + 1 * 80 };
+          */
+                #endregion
 
-                     figuresList.Add(tf);
-                     *//* { X = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).X, Y = (int)newCanvas.Children[i].TransformToAncestor(newCanvas).Transform(newPoint(0, 0)).Y }*//*
-                 }
-             }
-             #endregion
-
-             #region TreeViewPopulate
-             foreach (var item in figuresList)
-             {
-                 if (item is RectangleFigure)
-                     RectTree.Items.Add(item.shapeNode);
-                 if (item is CircleFigure)
-                     CirclesTree.Items.Add(item.shapeNode);
-                 if (item is TriangleFigure)
-                     TrianglesTree.Items.Add(item.shapeNode);
-             }
-      */
-            #endregion
-
-            #endregion
+                #endregion
 
 
-          
 
 
-           
+
+
 
             }
         }
@@ -360,14 +367,14 @@ namespace PolimorphismApp
                     intermadiate = serializer.Deserialize(streamwriter) as List<AbstractFigure>;
                 }
             InitializeListDeserialized(intermadiate);
-        
+
         }
         // workable function of Binary branch
         private void DeserialiseBinarry(string path)
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream streamwriter = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
-            
+
             List<AbstractFigure> intermadiate = null;
             if (File.Exists(path))
                 using (streamwriter)
@@ -396,26 +403,26 @@ namespace PolimorphismApp
                 {
 
 
-             case    ".json":
-                JSONSerialization(SaveFileName);
-                       
+                    case ".json":
+                        JSONSerialization(SaveFileName);
+
                         break;
                     case ".xml":
-                SerializeToXml(figuresList, xmlFilePath: SaveFileName);
+                        SerializeToXml(figuresList, xmlFilePath: SaveFileName);
 
                         break;
                     case ".bin":
 
-                BinarySerialization(SaveFileName);
+                        BinarySerialization(SaveFileName);
                         break;
 
                 }
-               
+
                 // In the times saving everything from Canva. For memory only
                 // WorkingCanvasSave("Figa.xaml");
 
 
-                
+
 
             }
         }
@@ -428,7 +435,7 @@ namespace PolimorphismApp
             JsonSerializer jz = new JsonSerializer();
             using (streamwriter)
             {
-               
+
                 jz.Serialize(streamwriter, figuresList);
             }
             textWriter.Close();
@@ -460,11 +467,11 @@ namespace PolimorphismApp
         }
         public static void SerializeToXml<T>(T anyobject, string xmlFilePath)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(anyobject.GetType() );
+            XmlSerializer xmlSerializer = new XmlSerializer(anyobject.GetType());
 
             using (StreamWriter writer = new StreamWriter(xmlFilePath))
             {
-                
+
                 xmlSerializer.Serialize(writer, anyobject);
             }
         }
