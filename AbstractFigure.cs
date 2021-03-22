@@ -41,7 +41,7 @@ namespace PolimorphismApp
 
         public virtual void Move(Point pMax) { }
 
-        internal CollisionManager CollisionManager = null;
+        internal CollisionManager CollisionManager = new CollisionManager();
 
         protected RadialGradientBrush InitBrush()
         {
