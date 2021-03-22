@@ -41,7 +41,7 @@ namespace PolimorphismApp
 
         public virtual void Move(Point pMax) { }
 
-        //protected Random rd = new Random();
+        internal CollisionManager CollisionManager = null;
 
         protected RadialGradientBrush InitBrush()
         {
@@ -52,6 +52,27 @@ namespace PolimorphismApp
 
             return brush;
         }
+
+        /// <summary>
+        /// Subscribe event.
+        /// </summary>
+        internal void Register()
+        {
+            CollisionManager.NewCollision += CollisionCase;
+        }
+        /// <summary>
+        /// Unsubscribe event.
+        /// </summary>
+        internal void Unregister()
+        {
+            
+            CollisionManager.NewCollision -= CollisionCase;
+        }
+        private void CollisionCase(Object sender, NewCollisionEventArgs e)
+        {
+            Console.WriteLine(@"{0}\t{1}",  e.X_Collision.ToString(), e.Y_Collision.ToString());
+        }
+
         protected void BounceTheBorder(Point pMax)
         {
             if (X <= 0 || X >= pMax.X)
@@ -87,6 +108,7 @@ namespace PolimorphismApp
             Y += Dy;
 
         }
+
 
 
     }

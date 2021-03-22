@@ -161,7 +161,7 @@ namespace PolimorphismApp
             TriangleFigure triangleFigure = new TriangleFigure(pMax);
 
             TrianglesTree.Items.Add(new TreeViewItem() { Header = triangleFigure.shapeNode });
-
+            
             figuresList.Add(triangleFigure);
         }
 
@@ -479,12 +479,30 @@ namespace PolimorphismApp
 
         private void Button_AddEvent(object sender, RoutedEventArgs e)
         {
+            figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString()).Register();
+            FiguresTreeView.Tag = "Registered";
+            //    var first = figuresList.Find(x => x.shapeNode.EndsWith("1"));
+            //    var second = figuresList.Find(x => x.shapeNode.EndsWith("2"));
 
+            //    var x1 = (first.X);
+            //    var y1 = (first.Y);
+
+            //    var x2 = second.X;
+            //    var y2 = second.Y;
+
+            //    Rect r1 = new Rect(x1, y1, 40, 40);
+
+            //    Rect r2 = new Rect(x2, y2, 40, 40);
+
+            //    if (r1.IntersectsWith(r2))
+            //        MessageBox.Show("Intersected!");
+            //    else
+            //        MessageBox.Show("Non-Intersected!");
         }
 
         private void Button_RemoveEvent(object sender, RoutedEventArgs e)
         {
-            AbstractFigure ab = figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString());
+            figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString()).Unregister();
 
 
 

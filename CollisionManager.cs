@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PolimorphismApp
 {
-    class CollisionManager
+    internal class CollisionManager
     {
         // Step #2: Define the event member
         public event EventHandler<NewCollisionEventArgs> NewCollision;
