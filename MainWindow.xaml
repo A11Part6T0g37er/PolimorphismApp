@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TreeView  Background="LightCyan" Margin="10,89,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="132" Height="231">
+        <TreeView Name="GlobalFiguresTree" SelectedItemChanged="TreeView_SelectedItemChanged" Background="LightCyan" Margin="10,89,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="132" Height="231">
 
             <TreeViewItem x:Name="FiguresTreeView" Header="Figures" IsExpanded="True">
                 <TreeViewItem x:Name="RectTree" Header="Rectangles" />
-                <TreeViewItem x:Name="TrianglesTree"  Header="Triangles"/>
+                <TreeViewItem x:Name="TrianglesTree"  Header="Triangles" />
                 <TreeViewItem x:Name="CirclesTree" Header="Circles" />
 
             </TreeViewItem>
@@ -45,8 +45,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="1"  Grid.Column="0" Content="Add" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="50"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="Remove" HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="50"/>
+            <Button Grid.Row="1"  Grid.Column="0" Content="Add" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="50" Click="Button_AddEvent"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="Remove" HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="50" Click="Button_RemoveEvent"/>
             <Label  Grid.Row="0" Grid.ColumnSpan="2" Content="Collision event" HorizontalAlignment="Center"  VerticalAlignment="Top"  />
         </Grid>
 

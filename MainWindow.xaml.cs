@@ -149,7 +149,7 @@ namespace PolimorphismApp
 
             RectangleFigure rectangle = new RectangleFigure(pMax);
 
-            RectTree.Items.Add(rectangle.shapeNode);
+            RectTree.Items.Add(new TreeViewItem() { Header = rectangle.shapeNode });
 
             figuresList.Add(rectangle);
 
@@ -160,7 +160,7 @@ namespace PolimorphismApp
 
             TriangleFigure triangleFigure = new TriangleFigure(pMax);
 
-            TrianglesTree.Items.Add(triangleFigure.shapeNode);
+            TrianglesTree.Items.Add(new TreeViewItem() { Header = triangleFigure.shapeNode });
 
             figuresList.Add(triangleFigure);
         }
@@ -170,7 +170,8 @@ namespace PolimorphismApp
 
             CircleFigure circle = new CircleFigure(pMax);
 
-            CirclesTree.Items.Add(circle.shapeNode);
+
+            CirclesTree.Items.Add(new TreeViewItem() { Header = circle.shapeNode });
             figuresList.Add(circle);
 
         }
@@ -208,18 +209,18 @@ namespace PolimorphismApp
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
-            
+
             // Dialog window openFile
             OpenFileDialog Fd = new OpenFileDialog() { InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) };
             Fd.Filter = "JSON files (*.json)|*.json|XML files (*.xml)|*.xml|Binary files (*.bin)|*.bin|All files (*.*)|*.*";
 
             Fd.ShowDialog();
-            string LoadedFileName = Fd.FileName ?? String.Empty;
+            string loadedFileName = Fd.FileName ?? string.Empty;
 
 
-            if (!string.IsNullOrEmpty(LoadedFileName))
+            if (!string.IsNullOrEmpty(loadedFileName))
             {
-                string ext = Path.GetExtension(LoadedFileName);
+                string ext = Path.GetExtension(loadedFileName);
 
                 // make canvas and tree clean from any objects it`s currently has in order to restore previous state
                 figuresList.Clear();
@@ -233,15 +234,15 @@ namespace PolimorphismApp
                 switch (ext)
                 {
                     case ".json":
-                        JSONDeserializing(pathJSON: LoadedFileName);
+                        JSONDeserializing(pathJSON: loadedFileName);
 
                         break;
                     case ".xml":
-                        DeserializeXML(path: LoadedFileName);
+                        DeserializeXML(path: loadedFileName);
 
                         break;
                     case ".bin":
-                        DeserialiseBinarry(path: LoadedFileName);
+                        DeserialiseBinarry(path: loadedFileName);
                         break;
                 }
 
@@ -476,5 +477,25 @@ namespace PolimorphismApp
             }
         }
 
+        private void Button_AddEvent(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_RemoveEvent(object sender, RoutedEventArgs e)
+        {
+            AbstractFigure ab = figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString());
+            
+            
+
+        }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            string Text = ((TreeViewItem)((TreeView)sender).SelectedItem).Header.ToString();
+
+        }
+
     }
 }
+

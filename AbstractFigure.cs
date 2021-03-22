@@ -2,6 +2,7 @@
 // Copyright (c) IndieWareCompany. All rights reserved.
 // </copyright>
 
+using RandomizerNetFramework;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,9 +24,9 @@ namespace PolimorphismApp
 
         public int Y { get; set; }
 
-        public int Dx { get; set; } = 4;
+        public int Dx { get;  set; } = 4;
 
-        public int Dy { get; set; } = -4;
+        public int Dy { get;  set; } = -4;
 
         public Point PMax { get; set; }
 
@@ -55,11 +56,30 @@ namespace PolimorphismApp
         {
             if (X <= 0 || X >= pMax.X)
             {
+                if (X <= 0)
+                {
+                    X = 0;
+                }
+                if (X >= pMax.X)
+                {
+                    X = (int)pMax.X - 1;
+                }
                 Dx = -Dx;
+
+
             }
 
             if (Y <= 0 || Y >= pMax.Y)
             {
+                if (Y <= 0)
+                {
+                    Y = 0;
+                }
+                if (Y >= pMax.Y)
+                {
+                    Y = (int)pMax.Y - 1;
+                }
+
                 Dy = -Dy;
             }
 
@@ -68,7 +88,7 @@ namespace PolimorphismApp
 
         }
 
-        
+
     }
 
     public enum ShapeForm
