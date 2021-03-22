@@ -65,6 +65,8 @@
     </ApplicationDefinition>
     <Compile Include="AbstractFigure.cs" />
     <Compile Include="CircleFigure.cs" />
+    <Compile Include="CollisionManager.cs" />
+    <Compile Include="NewCollisionEventArgs.cs" />
     <Compile Include="RectangleFigure.cs" />
     <Compile Include="TriangleFigure.cs" />
     <Page Include="MainWindow.xaml">
