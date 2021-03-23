@@ -7,7 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TreeView Name="GlobalFiguresTree" SelectedItemChanged="TreeView_SelectedItemChanged" Background="LightCyan" Margin="10,89,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="132" Height="231">
+        <TreeView Name="GlobalFiguresTree" SelectedItemChanged="TreeView_SelectedItemChanged" Margin="10,89,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="132" Height="231">
+            <TreeView.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#E5E1EEED" Offset="0.1"/>
+                    <GradientStop Color="#CCC0D2F1" Offset="0.9"/>
+                </LinearGradientBrush>
+            </TreeView.Background>
 
             <TreeViewItem x:Name="FiguresTreeView" Header="Figures" IsExpanded="True">
                 <TreeViewItem x:Name="RectTree" Header="Rectangles" />

@@ -481,9 +481,9 @@ namespace PolimorphismApp
         private void Button_AddEvent(object sender, RoutedEventArgs e)
         {
             figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString()).Register();
-            FiguresTreeView.Tag = "Registered";
-            RectangleFigure first = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("1"));
-            RectangleFigure second = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("2"));
+           
+            //RectangleFigure first = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("1"));
+            //RectangleFigure second = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("2"));
 
             //    var x1 = (first.X);
             //    var y1 = (first.Y);
@@ -502,23 +502,36 @@ namespace PolimorphismApp
 
 
 
-            var ellipse1Geom = first.rect.RenderedGeometry;
-            var ellipse2Geom = second.rect.RenderedGeometry;
-            var detail = ellipse1Geom.FillContainsWithDetail(ellipse2Geom);
-            if (detail != IntersectionDetail.Empty)
-            {
+            //var ellipse1Geom = first.rect.RenderedGeometry;
+            //var ellipse2Geom = second.rect.RenderedGeometry;
+            //var detail = ellipse1Geom.FillContainsWithDetail(ellipse2Geom);
+            //if (detail != IntersectionDetail.Empty)
+            //{
 
-                // We have an intersection or one contained inside the other
+            //    // We have an intersection or one contained inside the other
 
 
-            }
+            //}
+
+
+            
+
+            ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Background = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>() { new GradientStop((Color)ColorConverter.ConvertFromString("#7FB3CFFD"), 0), new GradientStop((Color)ColorConverter.ConvertFromString("#80F3BDFB"), 1) }));
+            
+            
+
         }
 
         private void Button_RemoveEvent(object sender, RoutedEventArgs e)
         {
-            figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString()).Unregister();
-            ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Background = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>() { new GradientStop((Color)ColorConverter.ConvertFromString("#247AF2"), 0.50), new GradientStop((Color)ColorConverter.ConvertFromString("#A150CC"), 8) }));
-           
+            var selected = ((TreeViewItem)(GlobalFiguresTree.SelectedItem));
+            figuresList.Find(x => x.shapeNode == selected.Header.ToString()).Unregister();
+
+            if (!selected.Background.Equals(null))
+            {
+              
+                selected.Background = null;
+                    }
 
         }
 
