@@ -4,6 +4,7 @@
 
 using RandomizerNetFramework;
 using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -30,6 +31,7 @@ namespace PolimorphismApp
 
         public Point PMax { get; set; }
 
+        
         public string shapeNode;
 
         public ShapeForm shapeForm;/*{ get; set; }*/
@@ -70,7 +72,11 @@ namespace PolimorphismApp
         }
         private void CollisionCase(Object sender, NewCollisionEventArgs e)
         {
-            Console.WriteLine(@"{0}\t{1}",  e.X_Collision.ToString(), e.Y_Collision.ToString());
+            string result = String.Format( @"{0}    {1}", e.X_Collision.ToString(), e.Y_Collision.ToString());
+            Console.Beep(20150,100);
+            
+            MessageBox.Show(result);
+            //this.Unregister();
         }
 
         protected void BounceTheBorder(Point pMax)

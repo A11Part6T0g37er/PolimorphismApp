@@ -31,7 +31,7 @@ namespace PolimorphismApp
         public Point pMax;
         DispatcherTimer timer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(30),
+            Interval = TimeSpan.FromMilliseconds(28),
         };
 
         public bool StopClicked { get; private set; } = false;
@@ -59,9 +59,97 @@ namespace PolimorphismApp
                     figure.Move(pMax);
                 }
             }
+            List<AbstractFigure> rectList = figuresList.FindAll(x => x.shapeForm.Equals(ShapeForm.Rectangle));
+            List<AbstractFigure> eventList = new List<AbstractFigure>();
+            rectList.ForEach(x =>
+            {
+                if (x.CollisionManager != null)
+                {
+                    eventList.Add(x );
+                }
+
+
+            });
+
+            List<AbstractFigure> eventList2 = eventList;
+
+            if (eventList.Count > 1)
+            {
+
+            foreach (var x in eventList.ToArray())
+            {
+
+                if (x.CollisionManager != null)
+                {
+                    eventList2.Remove(x);
+                        if (eventList2.Count > 2)
+                        {
+
+                            RectangleGeometry rg1;
+                            switch (x.shapeForm)
+                            {
+                                
+                                case ShapeForm.Rectangle:
+                                    var temp = x as RectangleFigure;
+                                   RectangleGeometry Shape1 = (RectangleGeometry)temp.rect.RenderedGeometry ;
+
+                                        break;
+                                case ShapeForm.Ellipse:
+                                    var temp2 = x as CircleFigure;
+                                     Shape1 = temp2.ellipse.RenderedGeometry;
+                                    break;
+                                case ShapeForm.Triangle:
+                                    var temp3 = x as TriangleFigure;
+                                    var Shape1 = temp3.polygon.RenderedGeometry;
+                                    break;
+
+                            }
+
+
+                    foreach (var y in eventList2)
+                    {
+
+                        var Shape2 = y.rect.RenderedGeometry;
+
+                        var detail = Shape1.FillContainsWithDetail(Shape2);
+                        if (detail != IntersectionDetail.Empty)
+                        {
+                            // We have an intersection or one contained inside the other
+
+                            x.CollisionManager.SimulateCollision(x.X, x.Y);
+
+                        }
+
+                    }
+                        }
+                }
+            } 
+            }
+
+
+
+
+
+            //var ellipse1Geom = first.rect.RenderedGeometry;
+            //var ellipse2Geom = second.rect.RenderedGeometry;
+            //var detail = ellipse1Geom.FillContainsWithDetail(ellipse2Geom);
+            //if (detail != IntersectionDetail.Empty)
+            //{
+
+            //    // We have an intersection or one contained inside the other
+
+
+            //}
+
+
 
         }
 
+        /// <summary>
+        /// Stop / Play shape moving around canvas.   Mouse.DirectlyOver method is used to get a shape from canva, which then is casted into proper figure in order to remove or add to figureList; depends on toggle button named 'StopClicked'.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CanvasArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             IInputElement clickedElement = Mouse.DirectlyOver;
@@ -310,10 +398,6 @@ namespace PolimorphismApp
 
 
 
-
-
-
-
             }
         }
 
@@ -455,6 +539,11 @@ namespace PolimorphismApp
         }
 
 
+        /// <summary>
+        /// Save all objects on canvas into xaml file of path string.
+        /// </summary>
+        /// <param name="path">Relative filename of string type.</param>
+        /// <remarks>NOT really need it. </remarks> 
         private void WorkingCanvasSave(string path)
         {
 
@@ -480,8 +569,14 @@ namespace PolimorphismApp
 
         private void Button_AddEvent(object sender, RoutedEventArgs e)
         {
-            figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString()).Register();
-           
+
+            var selected = ((TreeViewItem)(GlobalFiguresTree.SelectedItem));
+            if (selected == null || (selected.Header.ToString() == "Triangles" || selected.Header.ToString() == "Figures" || selected.Header.ToString() == "Rectangles" || selected.Header.ToString() == "Circles"))
+            {
+                return;
+            }
+            figuresList.Find(x => x.shapeNode == selected?.Header.ToString())?.Register();
+
             //RectangleFigure first = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("1"));
             //RectangleFigure second = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("2"));
 
@@ -502,36 +597,31 @@ namespace PolimorphismApp
 
 
 
-            //var ellipse1Geom = first.rect.RenderedGeometry;
-            //var ellipse2Geom = second.rect.RenderedGeometry;
-            //var detail = ellipse1Geom.FillContainsWithDetail(ellipse2Geom);
-            //if (detail != IntersectionDetail.Empty)
-            //{
 
-            //    // We have an intersection or one contained inside the other
-
-
-            //}
 
 
             
+            selected.Background = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>() { new GradientStop((Color)ColorConverter.ConvertFromString("#7FB3CFFD"), 0), new GradientStop((Color)ColorConverter.ConvertFromString("#80F3BDFB"), 1) }));
 
-            ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Background = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>() { new GradientStop((Color)ColorConverter.ConvertFromString("#7FB3CFFD"), 0), new GradientStop((Color)ColorConverter.ConvertFromString("#80F3BDFB"), 1) }));
-            
-            
+
 
         }
 
         private void Button_RemoveEvent(object sender, RoutedEventArgs e)
         {
             var selected = ((TreeViewItem)(GlobalFiguresTree.SelectedItem));
-            figuresList.Find(x => x.shapeNode == selected.Header.ToString()).Unregister();
-
-            if (!selected.Background.Equals(null))
+            if (selected == null || (selected.Header.ToString() == "Triangles" || selected.Header.ToString() == "Figures" || selected.Header.ToString() == "Rectangles" || selected.Header.ToString() == "Circles"))
             {
-              
-                selected.Background = null;
-                    }
+                return;
+            }
+
+            figuresList.Find(x => x.shapeNode == selected.Header.ToString()).Unregister();
+            if (selected != null)
+                if (!selected.Background.Equals(null))
+                {
+
+                    selected.Background = null;
+                }
 
         }
 
