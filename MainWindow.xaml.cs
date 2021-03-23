@@ -26,7 +26,6 @@ namespace PolimorphismApp
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private List<AbstractFigure> figuresList = new List<AbstractFigure>();
         public Point pMax;
         DispatcherTimer timer = new DispatcherTimer
@@ -44,7 +43,6 @@ namespace PolimorphismApp
 
             timer.Tick += Timer_Tick;
             timer.Start();
-
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -70,26 +68,16 @@ namespace PolimorphismApp
 
                 foreach (var x in eventList.ToArray())
                 {
-
                     if (x.CollisionManager != null)
                     {
-
                         if (eventList2.Count > 2)
                         {
-
-
-
-
                             foreach (var y in eventList2)
                             {
-
                                 if (y.CollisionManager != null)
                                 {
-
                                     if ((y.shapeForm == x.shapeForm) && (y.id != x.id))
                                     {
-
-
                                         var x1 = (y.X);
                                         var y1 = (y.Y);
 
@@ -102,19 +90,10 @@ namespace PolimorphismApp
 
                                         if (r1.IntersectsWith(r2))
                                         {
-
-                                            
                                             x.CollisionManager.SimulateCollision(x.X, x.Y);
-                                        
                                         }
-
                                     }
                                 }
-
-
-
-
-
                             }
                         }
                     }
@@ -135,9 +114,6 @@ namespace PolimorphismApp
 
 
             //}
-
-
-
         }
 
         /// <summary>
@@ -172,7 +148,6 @@ namespace PolimorphismApp
                         figuresList.Add(rf);
                     }
                 }
-
             }
 
             if (clickedElement is Ellipse)
@@ -197,7 +172,6 @@ namespace PolimorphismApp
                         figuresList.Add(rf);
                     }
                 }
-
             }
 
             if (clickedElement is Polygon)
@@ -221,27 +195,21 @@ namespace PolimorphismApp
                         canvasFigures.Children.Remove(obj);
                         figuresList.Add(rf);
                     }
-
                 }
-
             }
-
         }
 
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
-
             RectangleFigure rectangle = new RectangleFigure(pMax);
 
             RectTree.Items.Add(new TreeViewItem() { Header = rectangle.shapeNode });
 
             figuresList.Add(rectangle);
-
         }
 
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
-
             TriangleFigure triangleFigure = new TriangleFigure(pMax);
 
             TrianglesTree.Items.Add(new TreeViewItem() { Header = triangleFigure.shapeNode });
@@ -251,13 +219,11 @@ namespace PolimorphismApp
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
         {
-
             CircleFigure circle = new CircleFigure(pMax);
 
 
             CirclesTree.Items.Add(new TreeViewItem() { Header = circle.shapeNode });
             figuresList.Add(circle);
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -265,7 +231,6 @@ namespace PolimorphismApp
             if (!StopClicked)
             {
                 StopClicked = true;
-
             }
             else
             {
@@ -293,7 +258,6 @@ namespace PolimorphismApp
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
-
             // Dialog window openFile
             OpenFileDialog Fd = new OpenFileDialog() { InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) };
             Fd.Filter = "JSON files (*.json)|*.json|XML files (*.xml)|*.xml|Binary files (*.bin)|*.bin|All files (*.*)|*.*";
@@ -391,8 +355,6 @@ namespace PolimorphismApp
 
                 #endregion
 
-
-
             }
         }
 
@@ -403,7 +365,6 @@ namespace PolimorphismApp
             using (textReader)
             {
                 result = textReader.ReadToEnd();
-
             }
             var newList = JsonConvert.DeserializeObject<List<AbstractFigure>>(result);
             InitializeListDeserialized(newList);
@@ -448,7 +409,6 @@ namespace PolimorphismApp
                     intermadiate = serializer.Deserialize(streamwriter) as List<AbstractFigure>;
                 }
             InitializeListDeserialized(intermadiate);
-
         }
         // workable function of Binary branch
         private void DeserialiseBinarry(string path)
@@ -463,7 +423,6 @@ namespace PolimorphismApp
                     intermadiate = bf.Deserialize(streamwriter) as List<AbstractFigure>;
                 }
             InitializeListDeserialized(intermadiate);
-
         }
 
         // serialization testcase
@@ -482,8 +441,6 @@ namespace PolimorphismApp
 
                 switch (ext)
                 {
-
-
                     case ".json":
                         JSONSerialization(SaveFileName);
 
@@ -496,15 +453,10 @@ namespace PolimorphismApp
 
                         BinarySerialization(SaveFileName);
                         break;
-
                 }
 
                 // In the times saving everything from Canva. For memory only
                 // WorkingCanvasSave("Figa.xaml");
-
-
-
-
             }
         }
 
@@ -516,7 +468,6 @@ namespace PolimorphismApp
             JsonSerializer jz = new JsonSerializer();
             using (streamwriter)
             {
-
                 jz.Serialize(streamwriter, figuresList);
             }
             textWriter.Close();
@@ -541,15 +492,12 @@ namespace PolimorphismApp
         /// <remarks>NOT really need it. </remarks> 
         private void WorkingCanvasSave(string path)
         {
-
             FileStream streamwriter = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
             using (streamwriter)
             {
                 XamlWriter.Save(canvasFigures, streamwriter);
-
             }
-
         }
         public static void SerializeToXml<T>(T anyobject, string xmlFilePath)
         {
@@ -557,14 +505,12 @@ namespace PolimorphismApp
 
             using (StreamWriter writer = new StreamWriter(xmlFilePath))
             {
-
                 xmlSerializer.Serialize(writer, anyobject);
             }
         }
 
         private void Button_AddEvent(object sender, RoutedEventArgs e)
         {
-
             var selected = ((TreeViewItem)(GlobalFiguresTree.SelectedItem));
             if (selected == null || (selected.Header.ToString() == "Triangles" || selected.Header.ToString() == "Figures" || selected.Header.ToString() == "Rectangles" || selected.Header.ToString() == "Circles"))
             {
@@ -581,9 +527,6 @@ namespace PolimorphismApp
 
 
             selected.Background = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>() { new GradientStop((Color)ColorConverter.ConvertFromString("#7FB3CFFD"), 0), new GradientStop((Color)ColorConverter.ConvertFromString("#80F3BDFB"), 1) }));
-
-
-
         }
 
         private void Button_RemoveEvent(object sender, RoutedEventArgs e)
@@ -598,18 +541,14 @@ namespace PolimorphismApp
             if (selected != null)
                 if (!selected.Background.Equals(null))
                 {
-
                     selected.Background = new SolidColorBrush();
                 }
-
         }
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             string Text = ((TreeViewItem)((TreeView)sender).SelectedItem).Header.ToString();
-
         }
-
     }
 }
 

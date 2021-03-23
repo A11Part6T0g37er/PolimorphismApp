@@ -2,9 +2,8 @@
 // Copyright (c) IndieWareCompany. All rights reserved.
 // </copyright>
 
-using RandomizerNetFramework;
 using System;
-using System.Text;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,7 +80,7 @@ namespace PolimorphismApp
             
             MessageBox.Show(result);
             Thread.Sleep(100);
-            
+            Trace.WriteLine(result);
             this.Unregister();
         }
 

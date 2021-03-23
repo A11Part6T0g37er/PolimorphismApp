@@ -2,19 +2,18 @@
 // Copyright (c) IndieWare Ink.. All rights reserved.
 // </copyright>
 
-using RandomizerNetFramework;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using RandomizerNetFramework;
 
 namespace PolimorphismApp
 {
     [Serializable]
     public class RectangleFigure : AbstractFigure
     {
-
         [NonSerialized]
         [XmlIgnore]
         public Rectangle rect /*= new Rectangle() { Height = 40, Width = 40 }*/;
@@ -57,8 +56,6 @@ namespace PolimorphismApp
 
         public override void Draw(Canvas canvasFigures)
         {
-
-
             if (!canvasFigures.Children.Contains(this.rect))
             {
                 Canvas.SetLeft(this.rect, this.X);

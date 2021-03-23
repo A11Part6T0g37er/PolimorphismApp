@@ -43,7 +43,6 @@ namespace PolimorphismApp
 
         public override void Move(Point pMax)
         {
-
             this.BounceTheBorder(pMax);
             Canvas.SetLeft(this.ellipse, this.X);
             Canvas.SetTop(this.ellipse, this.Y);
@@ -52,10 +51,8 @@ namespace PolimorphismApp
 
         public override void Draw(Canvas canvas)
         {
-
             if (!canvas.Children.Contains(this.ellipse))
             {
-
                 Canvas.SetLeft(this.ellipse, this.X);
                 Canvas.SetTop(this.ellipse, this.Y);
                 canvas.Children.Add(this.ellipse);
