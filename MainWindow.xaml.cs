@@ -59,71 +59,66 @@ namespace PolimorphismApp
                     figure.Move(pMax);
                 }
             }
-            List<AbstractFigure> rectList = figuresList.FindAll(x => x.shapeForm.Equals(ShapeForm.Rectangle));
-            List<AbstractFigure> eventList = new List<AbstractFigure>();
-            rectList.ForEach(x =>
-            {
-                if (x.CollisionManager != null)
-                {
-                    eventList.Add(x );
-                }
+            List<AbstractFigure> allShapes = figuresList.FindAll(x => x.CollisionManager != null);
+            List<AbstractFigure> eventList = allShapes;
 
-
-            });
 
             List<AbstractFigure> eventList2 = eventList;
-
             if (eventList.Count > 1)
             {
+                eventList2.RemoveAt(0);
 
-            foreach (var x in eventList.ToArray())
-            {
-
-                if (x.CollisionManager != null)
+                foreach (var x in eventList.ToArray())
                 {
-                    eventList2.Remove(x);
+
+                    if (x.CollisionManager != null)
+                    {
+
                         if (eventList2.Count > 2)
                         {
 
-                            RectangleGeometry rg1;
-                            switch (x.shapeForm)
-                            {
-                                
-                                case ShapeForm.Rectangle:
-                                    var temp = x as RectangleFigure;
-                                   RectangleGeometry Shape1 = (RectangleGeometry)temp.rect.RenderedGeometry ;
 
-                                        break;
-                                case ShapeForm.Ellipse:
-                                    var temp2 = x as CircleFigure;
-                                     Shape1 = temp2.ellipse.RenderedGeometry;
-                                    break;
-                                case ShapeForm.Triangle:
-                                    var temp3 = x as TriangleFigure;
-                                    var Shape1 = temp3.polygon.RenderedGeometry;
-                                    break;
+
+
+                            foreach (var y in eventList2)
+                            {
+
+                                if (y.CollisionManager != null)
+                                {
+
+                                    if ((y.shapeForm == x.shapeForm) && (y.id != x.id))
+                                    {
+
+
+                                        var x1 = (y.X);
+                                        var y1 = (y.Y);
+
+                                        var x2 = x.X;
+                                        var y2 = x.Y;
+
+                                        Rect r1 = new Rect(x1, y1, 40, 40);
+
+                                        Rect r2 = new Rect(x2, y2, 40, 40);
+
+                                        if (r1.IntersectsWith(r2))
+                                        {
+
+                                            
+                                            x.CollisionManager.SimulateCollision(x.X, x.Y);
+                                        
+                                        }
+
+                                    }
+                                }
+
+
+
+
 
                             }
-
-
-                    foreach (var y in eventList2)
-                    {
-
-                        var Shape2 = y.rect.RenderedGeometry;
-
-                        var detail = Shape1.FillContainsWithDetail(Shape2);
-                        if (detail != IntersectionDetail.Empty)
-                        {
-                            // We have an intersection or one contained inside the other
-
-                            x.CollisionManager.SimulateCollision(x.X, x.Y);
-
                         }
-
                     }
-                        }
                 }
-            } 
             }
 
 
@@ -423,19 +418,19 @@ namespace PolimorphismApp
                 TriangleFigure tf;
                 if (x.shapeForm is ShapeForm.Rectangle)
                 {
-                    fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
                     figuresList.Add(fr);
                     RectTree.Items.Add(new TreeViewItem() { Header = fr.shapeNode });
                 }
                 if (x.shapeForm is ShapeForm.Triangle)
                 {
-                    tf = new TriangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    tf = new TriangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
                     figuresList.Add(tf);
                     TrianglesTree.Items.Add(new TreeViewItem() { Header = tf.shapeNode });
                 }
                 if (x.shapeForm is ShapeForm.Ellipse)
                 {
-                    cf = new CircleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy };
+                    cf = new CircleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
                     figuresList.Add(cf);
                     CirclesTree.Items.Add(new TreeViewItem() { Header = cf.shapeNode });
                 }
@@ -577,30 +572,14 @@ namespace PolimorphismApp
             }
             figuresList.Find(x => x.shapeNode == selected?.Header.ToString())?.Register();
 
-            //RectangleFigure first = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("1"));
-            //RectangleFigure second = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("2"));
-
-            //    var x1 = (first.X);
-            //    var y1 = (first.Y);
-
-            //    var x2 = second.X;
-            //    var y2 = second.Y;
-
-            //    Rect r1 = new Rect(x1, y1, 40, 40);
-
-            //    Rect r2 = new Rect(x2, y2, 40, 40);
-
-            //    if (r1.IntersectsWith(r2))
-            //        MessageBox.Show("Intersected!");
-            //    else
-            //        MessageBox.Show("Non-Intersected!");
 
 
 
 
 
 
-            
+
+
             selected.Background = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>() { new GradientStop((Color)ColorConverter.ConvertFromString("#7FB3CFFD"), 0), new GradientStop((Color)ColorConverter.ConvertFromString("#80F3BDFB"), 1) }));
 
 
@@ -620,7 +599,7 @@ namespace PolimorphismApp
                 if (!selected.Background.Equals(null))
                 {
 
-                    selected.Background = null;
+                    selected.Background = new SolidColorBrush();
                 }
 
         }

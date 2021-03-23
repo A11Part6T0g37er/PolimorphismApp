@@ -5,6 +5,7 @@
 using RandomizerNetFramework;
 using System;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,6 +22,8 @@ namespace PolimorphismApp
         /// <summary>
         /// Simple wrapper for objects derived from Shape;
         /// </summary>
+        public Guid id { get;  set; } = Guid.NewGuid();
+
         public int X { get; set; }
 
         public int Y { get; set; }
@@ -61,6 +64,7 @@ namespace PolimorphismApp
         internal void Register()
         {
             CollisionManager.NewCollision += CollisionCase;
+            
         }
         /// <summary>
         /// Unsubscribe event.
@@ -76,7 +80,9 @@ namespace PolimorphismApp
             Console.Beep(20150,100);
             
             MessageBox.Show(result);
-            //this.Unregister();
+            Thread.Sleep(100);
+            
+            this.Unregister();
         }
 
         protected void BounceTheBorder(Point pMax)
