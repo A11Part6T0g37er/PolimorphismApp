@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Serialization;
@@ -161,7 +162,7 @@ namespace PolimorphismApp
             TriangleFigure triangleFigure = new TriangleFigure(pMax);
 
             TrianglesTree.Items.Add(new TreeViewItem() { Header = triangleFigure.shapeNode });
-            
+
             figuresList.Add(triangleFigure);
         }
 
@@ -481,8 +482,8 @@ namespace PolimorphismApp
         {
             figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString()).Register();
             FiguresTreeView.Tag = "Registered";
-            //    var first = figuresList.Find(x => x.shapeNode.EndsWith("1"));
-            //    var second = figuresList.Find(x => x.shapeNode.EndsWith("2"));
+            RectangleFigure first = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("1"));
+            RectangleFigure second = (RectangleFigure)figuresList.Find(x => x.shapeNode.EndsWith("2"));
 
             //    var x1 = (first.X);
             //    var y1 = (first.Y);
@@ -498,13 +499,26 @@ namespace PolimorphismApp
             //        MessageBox.Show("Intersected!");
             //    else
             //        MessageBox.Show("Non-Intersected!");
+
+
+
+            var ellipse1Geom = first.rect.RenderedGeometry;
+            var ellipse2Geom = second.rect.RenderedGeometry;
+            var detail = ellipse1Geom.FillContainsWithDetail(ellipse2Geom);
+            if (detail != IntersectionDetail.Empty)
+            {
+
+                // We have an intersection or one contained inside the other
+
+
+            }
         }
 
         private void Button_RemoveEvent(object sender, RoutedEventArgs e)
         {
             figuresList.Find(x => x.shapeNode == ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Header.ToString()).Unregister();
-
-
+            ((TreeViewItem)(GlobalFiguresTree.SelectedItem)).Background = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>() { new GradientStop((Color)ColorConverter.ConvertFromString("#247AF2"), 0.50), new GradientStop((Color)ColorConverter.ConvertFromString("#A150CC"), 8) }));
+           
 
         }
 
