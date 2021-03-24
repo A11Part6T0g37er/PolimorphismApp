@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -37,27 +38,30 @@ namespace PolimorphismApp
 
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             // used by all shapes
-            pMax = new Point(canvasFigures.ActualWidth - 30, canvasFigures.ActualHeight - 30);
+            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
 
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            this.timer.Tick += this.Timer_Tick;
+            this.timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            pMax = new Point(canvasFigures.ActualWidth - 30, canvasFigures.ActualHeight - 30);
-
-            foreach (var figure in figuresList)
+            this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
+            Thread myThread = null;
+            AbstractFigure c = new AbstractFigure();
+            
+            foreach (var figure in this.figuresList)
             {
                 if (figure != null)
                 {
-                    figure.Draw(canvasFigures);
-                    figure.Move(pMax);
+                    myThread = new Thread((ThreadStart)DrawFigureOnCanvas(figure));
+                    myThread.Start();
+                    figure.Move(this.pMax);
                 }
             }
-            List<AbstractFigure> allShapes = figuresList.FindAll(x => x.CollisionManager != null);
+            List<AbstractFigure> allShapes = this.figuresList.FindAll(x => x.CollisionManager != null);
             List<AbstractFigure> eventList = allShapes;
 
 
@@ -116,6 +120,12 @@ namespace PolimorphismApp
             //}
         }
 
+        private static void DrawFigureOnCanvas(AbstractFigure figure)
+        {
+            figure.Draw(this.canvasFigures);
+            
+        }
+
         /// <summary>
         /// Stop / Play shape moving around canvas.   Mouse.DirectlyOver method is used to get a shape from canva, which then is casted into proper figure in order to remove or add to figureList; depends on toggle button named 'StopClicked'.
         /// </summary>
@@ -128,24 +138,24 @@ namespace PolimorphismApp
             if (clickedElement is Rectangle)
             {
                 var obj = clickedElement as Rectangle;
-                int i = canvasFigures.Children.IndexOf(obj);
+                int i = this.canvasFigures.Children.IndexOf(obj);
 
-                Rectangle some = (Rectangle)canvasFigures.Children[i];
+                Rectangle some = (Rectangle)this.canvasFigures.Children[i];
 
-                int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
-                int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
+                int X = (int)obj.TransformToAncestor(this.canvasFigures).Transform(new Point(0, 0)).X;
+                int Y = (int)obj.TransformToAncestor(this.canvasFigures).Transform(new Point(0, 0)).Y;
 
-                var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
+                var toDel = this.figuresList.Find(x => x.X == X && x.Y == Y);
 
-                if (StopClicked)
-                    figuresList.Remove(toDel);
-                if (!StopClicked)
+                if (this.StopClicked)
+                    this.figuresList.Remove(toDel);
+                if (!this.StopClicked)
                 {
-                    if (!figuresList.Contains(toDel))
+                    if (!this.figuresList.Contains(toDel))
                     {
-                        RectangleFigure rf = new RectangleFigure(pMax) { Y = Y, X = X };
-                        canvasFigures.Children.Remove(obj);
-                        figuresList.Add(rf);
+                        RectangleFigure rf = new RectangleFigure(this.pMax) { Y = Y, X = X };
+                        this.canvasFigures.Children.Remove(obj);
+                        this.figuresList.Add(rf);
                     }
                 }
             }
@@ -153,23 +163,23 @@ namespace PolimorphismApp
             if (clickedElement is Ellipse)
             {
                 var obj = clickedElement as Ellipse;
-                int i = canvasFigures.Children.IndexOf(obj);
+                int i = this.canvasFigures.Children.IndexOf(obj);
 
-                Ellipse some = (Ellipse)canvasFigures.Children[i];
+                Ellipse some = (Ellipse)this.canvasFigures.Children[i];
 
-                int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
-                int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
-                var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
+                int X = (int)obj.TransformToAncestor(this.canvasFigures).Transform(new Point(0, 0)).X;
+                int Y = (int)obj.TransformToAncestor(this.canvasFigures).Transform(new Point(0, 0)).Y;
+                var toDel = this.figuresList.Find(x => x.X == X && x.Y == Y);
 
-                if (StopClicked)
-                    figuresList.Remove(toDel);
-                if (!StopClicked)
+                if (this.StopClicked)
+                    this.figuresList.Remove(toDel);
+                if (!this.StopClicked)
                 {
-                    if (!figuresList.Contains(toDel))
+                    if (!this.figuresList.Contains(toDel))
                     {
-                        CircleFigure rf = new CircleFigure(pMax) { Y = Y, X = X };
-                        canvasFigures.Children.Remove(obj);
-                        figuresList.Add(rf);
+                        CircleFigure rf = new CircleFigure(this.pMax) { Y = Y, X = X };
+                        this.canvasFigures.Children.Remove(obj);
+                        this.figuresList.Add(rf);
                     }
                 }
             }
@@ -177,23 +187,23 @@ namespace PolimorphismApp
             if (clickedElement is Polygon)
             {
                 var obj = clickedElement as Polygon;
-                int i = canvasFigures.Children.IndexOf(obj);
+                int i = this.canvasFigures.Children.IndexOf(obj);
 
-                Polygon some = (Polygon)canvasFigures.Children[i];
+                Polygon some = (Polygon)this.canvasFigures.Children[i];
 
-                int X = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).X;
-                int Y = (int)obj.TransformToAncestor(canvasFigures).Transform(new Point(0, 0)).Y;
-                var toDel = figuresList.Find(x => x.X == X && x.Y == Y);
+                int X = (int)obj.TransformToAncestor(this.canvasFigures).Transform(new Point(0, 0)).X;
+                int Y = (int)obj.TransformToAncestor(this.canvasFigures).Transform(new Point(0, 0)).Y;
+                var toDel = this.figuresList.Find(x => x.X == X && x.Y == Y);
 
-                if (StopClicked)
-                    figuresList.Remove(toDel);
-                if (!StopClicked)
+                if (this.StopClicked)
+                    this.figuresList.Remove(toDel);
+                if (!this.StopClicked)
                 {
-                    if (!figuresList.Contains(toDel))
+                    if (!this.figuresList.Contains(toDel))
                     {
-                        TriangleFigure rf = new TriangleFigure(pMax) { Y = Y, X = X };
-                        canvasFigures.Children.Remove(obj);
-                        figuresList.Add(rf);
+                        TriangleFigure rf = new TriangleFigure(this.pMax) { Y = Y, X = X };
+                        this.canvasFigures.Children.Remove(obj);
+                        this.figuresList.Add(rf);
                     }
                 }
             }
@@ -201,40 +211,40 @@ namespace PolimorphismApp
 
         private void CreateRectangleShape(object sender, RoutedEventArgs e)
         {
-            RectangleFigure rectangle = new RectangleFigure(pMax);
+            RectangleFigure rectangle = new RectangleFigure(this.pMax);
 
-            RectTree.Items.Add(new TreeViewItem() { Header = rectangle.shapeNode });
+            this.RectTree.Items.Add(new TreeViewItem() { Header = rectangle.shapeNode });
 
-            figuresList.Add(rectangle);
+            this.figuresList.Add(rectangle);
         }
 
         private void CreateTriangleShape(object sender, RoutedEventArgs e)
         {
-            TriangleFigure triangleFigure = new TriangleFigure(pMax);
+            TriangleFigure triangleFigure = new TriangleFigure(this.pMax);
 
-            TrianglesTree.Items.Add(new TreeViewItem() { Header = triangleFigure.shapeNode });
+            this.TrianglesTree.Items.Add(new TreeViewItem() { Header = triangleFigure.shapeNode });
 
-            figuresList.Add(triangleFigure);
+            this.figuresList.Add(triangleFigure);
         }
 
         private void CreateCircleShape(object sender, RoutedEventArgs e)
         {
-            CircleFigure circle = new CircleFigure(pMax);
+            CircleFigure circle = new CircleFigure(this.pMax);
 
 
-            CirclesTree.Items.Add(new TreeViewItem() { Header = circle.shapeNode });
-            figuresList.Add(circle);
+            this.CirclesTree.Items.Add(new TreeViewItem() { Header = circle.shapeNode });
+            this.figuresList.Add(circle);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_StopPlay_Click(object sender, RoutedEventArgs e)
         {
-            if (!StopClicked)
+            if (!this.StopClicked)
             {
-                StopClicked = true;
+                this.StopClicked = true;
             }
             else
             {
-                StopClicked = false;
+                this.StopClicked = false;
             }
         }
 
@@ -271,26 +281,26 @@ namespace PolimorphismApp
                 string ext = Path.GetExtension(loadedFileName);
 
                 // make canvas and tree clean from any objects it`s currently has in order to restore previous state
-                figuresList.Clear();
-                canvasFigures.Children.Clear();
+                this.figuresList.Clear();
+                this.canvasFigures.Children.Clear();
 
 
-                CirclesTree.Items.Clear();
-                RectTree.Items.Clear();
-                TrianglesTree.Items.Clear();
+                this.CirclesTree.Items.Clear();
+                this.RectTree.Items.Clear();
+                this.TrianglesTree.Items.Clear();
 
                 switch (ext)
                 {
                     case ".json":
-                        JSONDeserializing(pathJSON: loadedFileName);
+                        this.JSONDeserializing(pathJSON: loadedFileName);
 
                         break;
                     case ".xml":
-                        DeserializeXML(path: loadedFileName);
+                        this.DeserializeXML(path: loadedFileName);
 
                         break;
                     case ".bin":
-                        DeserialiseBinarry(path: loadedFileName);
+                        this.DeserialiseBinarry(path: loadedFileName);
                         break;
                 }
 
@@ -367,7 +377,7 @@ namespace PolimorphismApp
                 result = textReader.ReadToEnd();
             }
             var newList = JsonConvert.DeserializeObject<List<AbstractFigure>>(result);
-            InitializeListDeserialized(newList);
+            this.InitializeListDeserialized(newList);
         }
 
         private void InitializeListDeserialized(List<AbstractFigure> newList)
@@ -379,21 +389,21 @@ namespace PolimorphismApp
                 TriangleFigure tf;
                 if (x.shapeForm is ShapeForm.Rectangle)
                 {
-                    fr = new RectangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
-                    figuresList.Add(fr);
-                    RectTree.Items.Add(new TreeViewItem() { Header = fr.shapeNode });
+                    fr = new RectangleFigure(this.pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
+                    this.figuresList.Add(fr);
+                    this.RectTree.Items.Add(new TreeViewItem() { Header = fr.shapeNode });
                 }
                 if (x.shapeForm is ShapeForm.Triangle)
                 {
-                    tf = new TriangleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
-                    figuresList.Add(tf);
-                    TrianglesTree.Items.Add(new TreeViewItem() { Header = tf.shapeNode });
+                    tf = new TriangleFigure(this.pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
+                    this.figuresList.Add(tf);
+                    this.TrianglesTree.Items.Add(new TreeViewItem() { Header = tf.shapeNode });
                 }
                 if (x.shapeForm is ShapeForm.Ellipse)
                 {
-                    cf = new CircleFigure(pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
-                    figuresList.Add(cf);
-                    CirclesTree.Items.Add(new TreeViewItem() { Header = cf.shapeNode });
+                    cf = new CircleFigure(this.pMax) { X = x.X, Y = x.Y, Dx = x.Dx, Dy = x.Dy, id = x.id };
+                    this.figuresList.Add(cf);
+                    this.CirclesTree.Items.Add(new TreeViewItem() { Header = cf.shapeNode });
                 }
             });
         }
@@ -408,7 +418,7 @@ namespace PolimorphismApp
                 {
                     intermadiate = serializer.Deserialize(streamwriter) as List<AbstractFigure>;
                 }
-            InitializeListDeserialized(intermadiate);
+            this.InitializeListDeserialized(intermadiate);
         }
         // workable function of Binary branch
         private void DeserialiseBinarry(string path)
@@ -422,7 +432,7 @@ namespace PolimorphismApp
                 {
                     intermadiate = bf.Deserialize(streamwriter) as List<AbstractFigure>;
                 }
-            InitializeListDeserialized(intermadiate);
+            this.InitializeListDeserialized(intermadiate);
         }
 
         // serialization testcase
@@ -442,16 +452,16 @@ namespace PolimorphismApp
                 switch (ext)
                 {
                     case ".json":
-                        JSONSerialization(SaveFileName);
+                        this.JSONSerialization(pathJSON: SaveFileName, anyObject: this.figuresList);
 
                         break;
                     case ".xml":
-                        SerializeToXml(figuresList, xmlFilePath: SaveFileName);
+                        SerializeToXml(xmlFilePath: SaveFileName, anyObject: this.figuresList);
 
                         break;
                     case ".bin":
 
-                        BinarySerialization(SaveFileName);
+                        this.BinarySerialization(path: SaveFileName, anyObject: this.figuresList);
                         break;
                 }
 
@@ -460,7 +470,7 @@ namespace PolimorphismApp
             }
         }
 
-        private void JSONSerialization(string pathJSON)
+        private void JSONSerialization<T>(string pathJSON, T anyObject)
         {
             TextWriter textWriter = new StreamWriter(pathJSON);
             JsonTextWriter streamwriter = new JsonTextWriter(textWriter);
@@ -468,19 +478,19 @@ namespace PolimorphismApp
             JsonSerializer jz = new JsonSerializer();
             using (streamwriter)
             {
-                jz.Serialize(streamwriter, figuresList);
+                jz.Serialize(streamwriter, anyObject);
             }
             textWriter.Close();
         }
 
-        private void BinarySerialization(string path)
+        private void BinarySerialization<T>(string path, T anyObject)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream streamwriter = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
             using (streamwriter)
             {
-                formatter.Serialize(streamwriter, figuresList);
+                formatter.Serialize(streamwriter, anyObject);
             }
         }
 
@@ -496,27 +506,27 @@ namespace PolimorphismApp
 
             using (streamwriter)
             {
-                XamlWriter.Save(canvasFigures, streamwriter);
+                XamlWriter.Save(this.canvasFigures, streamwriter);
             }
         }
-        public static void SerializeToXml<T>(T anyobject, string xmlFilePath)
+        public static void SerializeToXml<T>(T anyObject, string xmlFilePath)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(anyobject.GetType());
+            XmlSerializer xmlSerializer = new XmlSerializer(anyObject.GetType());
 
             using (StreamWriter writer = new StreamWriter(xmlFilePath))
             {
-                xmlSerializer.Serialize(writer, anyobject);
+                xmlSerializer.Serialize(writer, anyObject);
             }
         }
 
         private void Button_AddEvent(object sender, RoutedEventArgs e)
         {
-            var selected = ((TreeViewItem)(GlobalFiguresTree.SelectedItem));
+            var selected = ((TreeViewItem)(this.GlobalFiguresTree.SelectedItem));
             if (selected == null || (selected.Header.ToString() == "Triangles" || selected.Header.ToString() == "Figures" || selected.Header.ToString() == "Rectangles" || selected.Header.ToString() == "Circles"))
             {
                 return;
             }
-            figuresList.Find(x => x.shapeNode == selected?.Header.ToString())?.Register();
+            this.figuresList.Find(x => x.shapeNode == selected?.Header.ToString())?.Register();
 
 
 
@@ -531,13 +541,13 @@ namespace PolimorphismApp
 
         private void Button_RemoveEvent(object sender, RoutedEventArgs e)
         {
-            var selected = ((TreeViewItem)(GlobalFiguresTree.SelectedItem));
+            var selected = ((TreeViewItem)(this.GlobalFiguresTree.SelectedItem));
             if (selected == null || (selected.Header.ToString() == "Triangles" || selected.Header.ToString() == "Figures" || selected.Header.ToString() == "Rectangles" || selected.Header.ToString() == "Circles"))
             {
                 return;
             }
 
-            figuresList.Find(x => x.shapeNode == selected.Header.ToString()).Unregister();
+            this.figuresList.Find(x => x.shapeNode == selected.Header.ToString()).Unregister();
             if (selected != null)
                 if (!selected.Background.Equals(null))
                 {

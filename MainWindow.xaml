@@ -23,7 +23,7 @@
             </TreeViewItem>
         </TreeView>
         <StackPanel  x:Name="ButtonsPanel" Orientation="Horizontal" Margin="185,10,0,0" Height="57" VerticalAlignment="Top" ClipToBounds="True" HorizontalAlignment="Stretch" Width="607">
-            <ToggleButton Content="Stop/Play" Width="101" Margin="10" Click="Button_Click" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <ToggleButton Content="Stop/Play" Width="101" Margin="10" Click="Button_StopPlay_Click" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button Content="Rect btn" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"   Width="101" Click="CreateRectangleShape" Height="35"/>
             <Button Content="Triangle btn" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"  Width="101" Click="CreateTriangleShape" Height="35"/>
             <Button Content="Circ btn" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"  Width="101" Click="CreateCircleShape" Height="35"/>
