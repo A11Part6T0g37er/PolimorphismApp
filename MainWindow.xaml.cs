@@ -6,10 +6,12 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,12 +31,15 @@ namespace PolimorphismApp
     {
         private List<AbstractFigure> figuresList = new List<AbstractFigure>();
         public Point pMax;
+
+       
         DispatcherTimer timer = new DispatcherTimer
         {
             Interval = TimeSpan.FromMilliseconds(28),
         };
 
         public bool StopClicked { get; private set; } = false;
+        public object locker { get; private set; } = new object();
 
         public MainWindow()
         {
@@ -49,18 +54,37 @@ namespace PolimorphismApp
         private void Timer_Tick(object sender, EventArgs e)
         {
             this.pMax = new Point(this.canvasFigures.ActualWidth - 30, this.canvasFigures.ActualHeight - 30);
-            Thread myThread = null;
-            AbstractFigure c = new AbstractFigure();
-            
+
+            Thread[] tread = new Thread[1];
+            // TODO:
+            //Thread thread = new Thread(start: new ParameterizedThreadStart((AbstractFigure, object) => NewMethod)) { Name = "Drawing Thread" };
+
             foreach (var figure in this.figuresList)
             {
                 if (figure != null)
                 {
-                    myThread = new Thread((ThreadStart)DrawFigureOnCanvas(figure));
-                    myThread.Start();
-                    figure.Move(this.pMax);
+                    //Thread   myThread = new Thread(new ParameterizedThreadStart((figure1) => figure.Draw(this.canvasFigures))) { Name="Draw`em up!"};
+                    //   myThread.SetApartmentState(ApartmentState.STA); // controls must be constructed in the STA thread
+                    //   myThread.IsBackground = true;
+                    //myThread.Start();
+                    //myThread.Join();
+
+                    int id = Thread.CurrentThread.ManagedThreadId;
+                    Trace.WriteLine("Ticker thread: " + id);
+                    SynchronizationContext uiContext = SynchronizationContext.Current;
+
+
+                  tread[0]   = new Thread(new ThreadStart(() => NewMethod(figure, uiContext))) { Name = "Drawing Thread" };
+                     
+                    tread[0].Start();
+                    
+
+                        figure.Move(this.pMax);
+                    
+                    //Task.Factory.StartNew(()=> figure.Draw(this.canvasFigures)).Wait();
                 }
             }
+            #region Event raising
             List<AbstractFigure> allShapes = this.figuresList.FindAll(x => x.CollisionManager != null);
             List<AbstractFigure> eventList = allShapes;
 
@@ -104,6 +128,7 @@ namespace PolimorphismApp
                 }
             }
 
+            #endregion
 
 
 
@@ -120,11 +145,24 @@ namespace PolimorphismApp
             //}
         }
 
-        private static void DrawFigureOnCanvas(AbstractFigure figure)
+        private void NewMethod(AbstractFigure figure, object uiContext)
         {
-            figure.Draw(this.canvasFigures);
-            
+            int id = Thread.CurrentThread.ManagedThreadId;
+            Trace.WriteLine("Run thread: " + id);
+
+            SynchronizationContext uiContext2 = uiContext as SynchronizationContext;
+
+            uiContext2.Post(UpdateUI,figure);
         }
+        private void UpdateUI(object state)
+        {
+            int id = Thread.CurrentThread.ManagedThreadId;
+            Trace.WriteLine("UpdateUI thread:" + id);
+            var figa = state as AbstractFigure;
+            figa.Draw(this.canvasFigures);
+        }
+
+
 
         /// <summary>
         /// Stop / Play shape moving around canvas.   Mouse.DirectlyOver method is used to get a shape from canva, which then is casted into proper figure in order to remove or add to figureList; depends on toggle button named 'StopClicked'.

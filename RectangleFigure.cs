@@ -20,6 +20,8 @@ namespace PolimorphismApp
 
         public static int Indexer = 0;
 
+        public object locker { get; private set; } = new object();
+
         public RectangleFigure() { }
         public RectangleFigure(Point pMax)
         {
@@ -56,12 +58,16 @@ namespace PolimorphismApp
 
         public override void Draw(Canvas canvasFigures)
         {
-            if (!canvasFigures.Children.Contains(this.rect))
-            {
-                Canvas.SetLeft(this.rect, this.X);
-                Canvas.SetTop(this.rect, this.Y);
-                canvasFigures.Children.Add(this.rect);
-            }
+            
+                
+
+                    if (!canvasFigures.Children.Contains(this.rect))
+                    {
+                        Canvas.SetLeft(this.rect, this.X);
+                        Canvas.SetTop(this.rect, this.Y);
+                        canvasFigures.Children.Add(this.rect);
+                    } 
+                
 
         }
     }

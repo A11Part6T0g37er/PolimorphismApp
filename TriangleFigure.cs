@@ -43,9 +43,9 @@ namespace PolimorphismApp
         private void InitializeShape()
         {
             this.polygon = new Polygon();
-            System.Windows.Point Point1 = new System.Windows.Point(20, 10);
-            Point Point2 = new System.Windows.Point(40, 40);
-            Point Point3 = new System.Windows.Point(0, 40);
+            Point Point1 = new Point(20, 10);
+            Point Point2 = new Point(40, 40);
+            Point Point3 = new Point(0, 40);
             PointCollection polygonPoints = new PointCollection
             {
                 Point1,
