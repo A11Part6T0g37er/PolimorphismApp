@@ -60,7 +60,25 @@ namespace PolimorphismApp
 
             object obj = new object();
                   int min = 3;
+                        SynchronizationContext uiContext = SynchronizationContext.Current;
+            // made in second thread
+            ThreadPool.QueueUserWorkItem(o =>
+            {
 
+                lock (obj)
+                {
+                    foreach (var figure in figuresList)
+                    {
+                        if (figure != null)
+                        {
+                            int id = Thread.CurrentThread.ManagedThreadId;
+                            Trace.WriteLine("Ticker thread: " + id);
+                            (AbstractFigure figa, SynchronizationContext uiContext2) tulpec = (figure, uiContext);
+                            UIsynchrContextTulpe(tulpec);
+                        }
+                    } 
+                }
+            });
             foreach (var figure in figuresList)
             {
                 if (figure != null)
@@ -70,20 +88,20 @@ namespace PolimorphismApp
                     //   myThread.IsBackground = true;
                     // myThread.Start();
                     // myThread.Join();
-
+/* works but lags
                     int id = Thread.CurrentThread.ManagedThreadId;
                     Trace.WriteLine("Ticker thread: " + id);
                     SynchronizationContext uiContext = SynchronizationContext.Current;
                     (AbstractFigure figa, SynchronizationContext uiContext2) tulpec = (figure, uiContext);
+                    ThreadPool.GetMaxThreads(out min,out min);
+                    ThreadPool.QueueUserWorkItem(o => { UIsynchrContextTulpe(tulpec); });
+                   */
+                    
                     //Thread thread = new Thread(new ParameterizedThreadStart(UIsynchrContextTulpe)) { Name = "Drawing Thread" };
                     //thread.Start(tulpec);
                     //thread.Join();
-                    ThreadPool.GetMaxThreads(out min,out min);
-                    ThreadPool.QueueUserWorkItem(o => { UIsynchrContextTulpe(tulpec); });
                     //tread[0]   = new Thread(new ThreadStart(() => NewMethod(figure, uiContext))) { Name = "Drawing Thread" };
                    
-
-
 
                     //  tread[0].Start();
                     //  tread[0].Join();
